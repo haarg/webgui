@@ -356,18 +356,18 @@ sub www_manage {
     );
 
     # Add script and stylesheets
-    $session->style->setLink( $session->url->extras('yui/build/paginator/assets/skins/sam/paginator.css'), {rel=>'stylesheet', type=>'text/css'});
-    $session->style->setLink( $session->url->extras('yui/build/datatable/assets/skins/sam/datatable.css'), {rel=>'stylesheet', type=>'text/css'});
-    $session->style->setLink( $session->url->extras('yui/build/menu/assets/skins/sam/menu.css'), {rel=>'stylesheet', type=>'text/css'});
+    $session->style->setLink( $session->url->yui2('build/paginator/assets/skins/sam/paginator.css'), {rel=>'stylesheet', type=>'text/css'});
+    $session->style->setLink( $session->url->yui2('build/datatable/assets/skins/sam/datatable.css'), {rel=>'stylesheet', type=>'text/css'});
+    $session->style->setLink( $session->url->yui2('build/menu/assets/skins/sam/menu.css'), {rel=>'stylesheet', type=>'text/css'});
     $session->style->setLink( $session->url->extras('yui-webgui/build/assetManager/assetManager.css' ), { rel => "stylesheet", type => 'text/css' } );
 
-    $session->style->setScript( $session->url->extras( 'yui/build/utilities/utilities.js' ) );
-    $session->style->setScript( $session->url->extras( 'yui/build/paginator/paginator-min.js ' ) );
-    $session->style->setScript( $session->url->extras( 'yui/build/datasource/datasource-min.js ' ) );
-    $session->style->setScript( $session->url->extras( 'yui/build/datatable/datatable-min.js ' ) );
-    $session->style->setScript( $session->url->extras( 'yui/build/container/container-min.js' ) );
-    $session->style->setScript( $session->url->extras( 'yui/build/menu/menu-min.js' ) );
-    $session->style->setScript( $session->url->extras( 'yui/build/json/json-min.js' ) );
+    $session->style->setScript( $session->url->yui2( 'build/utilities/utilities.js' ) );
+    $session->style->setScript( $session->url->yui2( 'build/paginator/paginator-min.js ' ) );
+    $session->style->setScript( $session->url->yui2( 'build/datasource/datasource-min.js ' ) );
+    $session->style->setScript( $session->url->yui2( 'build/datatable/datatable-min.js ' ) );
+    $session->style->setScript( $session->url->yui2( 'build/container/container-min.js' ) );
+    $session->style->setScript( $session->url->yui2( 'build/menu/menu-min.js' ) );
+    $session->style->setScript( $session->url->yui2( 'build/json/json-min.js' ) );
     $session->style->setScript( $session->url->extras( 'yui-webgui/build/i18n/i18n.js' ) );
     $session->style->setScript( $session->url->extras( 'yui-webgui/build/assetManager/assetManager.js' ) );
     $session->style->setScript( $session->url->extras( 'yui-webgui/build/form/form.js' ) );
@@ -536,7 +536,7 @@ sub www_search {
     my $output       = '<div id="assetSearch">' . getHeader( $session );
     
     $session->style->setLink( $session->url->extras( 'yui-webgui/build/assetManager/assetManager.css' ), { rel => "stylesheet", type => 'text/css' } );
-    $session->style->setScript( $session->url->extras( 'yui/build/yahoo-dom-event/yahoo-dom-event.js' ) );
+    $session->style->setScript( $session->url->yui2( 'build/yahoo-dom-event/yahoo-dom-event.js' ) );
     $session->style->setScript( $session->url->extras( 'yui-webgui/build/assetManager/assetManager.js' ) );
     $session->style->setScript( $session->url->extras( 'yui-webgui/build/form/form.js' ) );
     my $keywords =  $session->form->get('keywords') || $session->scratch->get('assetManagerSearchKeywords');

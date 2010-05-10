@@ -1748,27 +1748,27 @@ sub www_viewProject {
     );
 	
     $self->session->style->setScript(
-      $self->session->url->extras('yui/build/yahoo/yahoo-min.js'),
+      $self->session->url->yui2('build/yahoo/yahoo-min.js'),
       { type=>'text/javascript' }
     );
     
     $self->session->style->setScript(
-      $self->session->url->extras('yui/build/event/event-min.js'),
+      $self->session->url->yui2('build/event/event-min.js'),
       { type=>'text/javascript' }
     );
     
     $self->session->style->setScript(
-      $self->session->url->extras('yui/build/dom/dom-min.js'),
+      $self->session->url->yui2('build/dom/dom-min.js'),
       { type=>'text/javascript' }
     );
    
     $self->session->style->setScript(
-      $self->session->url->extras('yui/build/connection/connection-min.js'),
+      $self->session->url->yui2('build/connection/connection-min.js'),
       { type=>'text/javascript' }
     );
     
     $self->session->style->setScript(
-      $self->session->url->extras('yui/build/container/container-min.js'),
+      $self->session->url->yui2('build/container/container-min.js'),
       { type=>'text/javascript' }
     );
     

@@ -226,13 +226,13 @@ sub toHtml {
 
     my $style   = $session->style;
     my $url     = $session->url;
-    $style->setLink($url->extras('yui/build/calendar/assets/skins/sam/calendar.css'), { rel=>"stylesheet", type=>"text/css", media=>"all" });
-    $style->setScript($url->extras('/yui/build/utilities/utilities.js'),        { type => 'text/javascript' });
-    $style->setScript($url->extras('yui/build/json/json-min.js'),               { type => 'text/javascript' });
-    $style->setScript($url->extras('yui/build/yahoo/yahoo-min.js'),             { type => 'text/javascript' });
-    $style->setScript($url->extras('yui/build/dom/dom-min.js'),                 { type => 'text/javascript' });
-    $style->setScript($url->extras('yui/build/event/event-min.js'),             { type => 'text/javascript' });
-    $style->setScript($url->extras('yui/build/calendar/calendar-min.js'),       { type => 'text/javascript' });
+    $style->setLink($url->yui2('build/calendar/assets/skins/sam/calendar.css'), { rel=>"stylesheet", type=>"text/css", media=>"all" });
+    $style->setScript($url->yui2('build/utilities/utilities.js'),        { type => 'text/javascript' });
+    $style->setScript($url->yui2('build/json/json-min.js'),               { type => 'text/javascript' });
+    $style->setScript($url->yui2('build/yahoo/yahoo-min.js'),             { type => 'text/javascript' });
+    $style->setScript($url->yui2('build/dom/dom-min.js'),                 { type => 'text/javascript' });
+    $style->setScript($url->yui2('build/event/event-min.js'),             { type => 'text/javascript' });
+    $style->setScript($url->yui2('build/calendar/calendar-min.js'),       { type => 'text/javascript' });
     $style->setScript($url->extras('yui-webgui/build/i18n/i18n.js' ),           { type => 'text/javascript' });
     $style->setScript($url->extras('yui-webgui/build/datepicker/datepicker.js'),{ type => 'text/javascript' });
 

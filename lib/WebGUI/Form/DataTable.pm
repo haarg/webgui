@@ -349,18 +349,18 @@ sub prepare {
     # Source in the scripts
     my $style = $self->session->style;
     my $url   = $self->session->url;
-    $style->setLink( $url->extras('yui/build/datatable/assets/skins/sam/datatable.css'),
+    $style->setLink( $url->yui2('build/datatable/assets/skins/sam/datatable.css'),
         { rel => "stylesheet", type => "text/css" } );
-    $style->setScript( $url->extras('yui/build/yahoo-dom-event/yahoo-dom-event.js') );
-    $style->setScript( $url->extras('yui/build/element/element-min.js') );
-    $style->setScript( $url->extras('yui/build/dragdrop/dragdrop-min.js') );
-    $style->setScript( $url->extras('yui/build/connection/connection-min.js') );
-    $style->setScript( $url->extras('yui/build/json/json-min.js') );
+    $style->setScript( $url->yui2('build/yahoo-dom-event/yahoo-dom-event.js') );
+    $style->setScript( $url->yui2('build/element/element-min.js') );
+    $style->setScript( $url->yui2('build/dragdrop/dragdrop-min.js') );
+    $style->setScript( $url->yui2('build/connection/connection-min.js') );
+    $style->setScript( $url->yui2('build/json/json-min.js') );
 
     # Prepare the editors
     if ( $self->get('showEdit') ) {
         $style->setLink(
-            $url->extras( 'yui/build/button/assets/skins/sam/button.css', { rel => "stylesheet", type => "text/css" } )
+            $url->yui2( 'build/button/assets/skins/sam/button.css', { rel => "stylesheet", type => "text/css" } )
         );
         $style->setLink(
             $url->extras(
@@ -368,16 +368,16 @@ sub prepare {
                 { rel => "stylesheet", type => "text/css" }
             )
         );
-        $style->setLink( $url->extras('yui/build/container/assets/skins/sam/container.css'),
+        $style->setLink( $url->yui2('build/container/assets/skins/sam/container.css'),
             { rel => "stylesheet", type => "text/css" } );
-        $style->setScript( $url->extras('yui/build/container/container-min.js') );
-        $style->setScript( $url->extras('yui/build/button/button-min.js') );
-        $style->setScript( $url->extras('yui/build/calendar/calendar-min.js') );
+        $style->setScript( $url->yui2('build/container/container-min.js') );
+        $style->setScript( $url->yui2('build/button/button-min.js') );
+        $style->setScript( $url->yui2('build/calendar/calendar-min.js') );
     } ## end if ( $self->get('showEdit'...
 
     $style->setScript( $url->extras('yui-webgui/build/i18n/i18n.js') );
-    $style->setScript( $url->extras('yui/build/datasource/datasource.js') );
-    $style->setScript( $url->extras('yui/build/datatable/datatable.js') );
+    $style->setScript( $url->yui2('build/datasource/datasource.js') );
+    $style->setScript( $url->yui2('build/datatable/datatable.js') );
     $style->setScript( $url->extras('yui-webgui/build/form/datatable.js') );
 
     $self->{_prepared} = 1;

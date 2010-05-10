@@ -495,6 +495,7 @@ sub setScript {
 	my $params = shift;
 	my $inBody = shift;
 	return undef if ($self->{_javascript}{$url});
+    $params->{type} //= 'text/javascript';
 	my $tag = '<script src="'.$url.'"';
 	foreach my $name (keys %{$params}) {
 		$tag .= ' '.$name.'="'.HTML::Entities::encode($params->{$name}).'"';

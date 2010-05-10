@@ -447,15 +447,15 @@ Override the master method to stuff in some javascript.
 sub getEditForm {
     my $self = shift;
     $self->session->style->setScript(
-        $self->session->url->extras('yui/build/utilities/utilities.js'),
+        $self->session->url->yui2('build/utilities/utilities.js'),
         { type => 'text/javascript', },
     );
     $self->session->style->setScript(
-        $self->session->url->extras('yui/build/yahoo-dom-event/yahoo-dom-event.js'),
+        $self->session->url->yui2('build/yahoo-dom-event/yahoo-dom-event.js'),
         { type => 'text/javascript', },
     );
     $self->session->style->setScript(
-        $self->session->url->extras('yui/build/json/json-min.js'),
+        $self->session->url->yui2('build/json/json-min.js'),
         { type => 'text/javascript', },
     );
     $self->session->style->setScript(

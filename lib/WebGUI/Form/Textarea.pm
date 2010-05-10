@@ -155,9 +155,9 @@ sub toHtml {
         . '>' . $value . '</textarea>';
 
     if ($self->get("resizable")) {
-        $style->setLink($url->extras("yui/build/resize/assets/skins/sam/resize.css"), {type=>"text/css", rel=>"stylesheet"});
-        $style->setScript($url->extras("yui/build/utilities/utilities.js"), {type=>"text/javascript"});
-        $style->setScript($url->extras("yui/build/resize/resize-min.js"), {type=>"text/javascript"});
+        $style->setLink($url->yui2("build/resize/assets/skins/sam/resize.css"), {type=>"text/css", rel=>"stylesheet"});
+        $style->setScript($url->yui2("build/utilities/utilities.js"), {type=>"text/javascript"});
+        $style->setScript($url->yui2("build/resize/resize-min.js"), {type=>"text/javascript"});
         $out = sprintf <<'END_HTML', $self->get('id'), $out, $sizeStyle;
 <div id="%1$s_resizewrapper" style="padding-right: 6px; padding-bottom: 6px; %3$s">%2$s</div>
 <script type="text/javascript">
@@ -174,7 +174,7 @@ END_HTML
     }
     elsif ($self->get('maxlength')) {
         $style->setScript(
-            $url->extras( 'yui/build/yahoo-dom-event/yahoo-dom-event.js' ),
+            $url->yui2( 'build/yahoo-dom-event/yahoo-dom-event.js' ),
             { type => 'text/javascript' },
         );
     }

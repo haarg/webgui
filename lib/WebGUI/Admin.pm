@@ -286,29 +286,29 @@ sub www_view {
     $var->{homeUrl} = WebGUI::Asset->getDefault( $session )->getUrl;
 
     # All this needs to be template attachments
-    $style->setLink( $url->extras('yui/build/button/assets/skins/sam/button.css'), {type=>"text/css",rel=>"stylesheet"});
-    $style->setLink( $url->extras('yui/build/menu/assets/skins/sam/menu.css'), {type=>"text/css",rel=>"stylesheet"});
-    $style->setLink( $url->extras('yui/build/tabview/assets/skins/sam/tabview.css'), {type=>"text/css",rel=>"stylesheet"});
-    $style->setLink( $url->extras('yui/build/paginator/assets/skins/sam/paginator.css'), {rel=>'stylesheet', type=>'text/css'});
-    $style->setLink( $url->extras('yui/build/datatable/assets/skins/sam/datatable.css'), {rel=>'stylesheet', type=>'text/css'});
-    $style->setLink( $url->extras('yui/build/menu/assets/skins/sam/menu.css'), {rel=>'stylesheet', type=>'text/css'});
+    $style->setLink( $url->yui2('build/button/assets/skins/sam/button.css'), {type=>"text/css",rel=>"stylesheet"});
+    $style->setLink( $url->yui2('build/menu/assets/skins/sam/menu.css'), {type=>"text/css",rel=>"stylesheet"});
+    $style->setLink( $url->yui2('build/tabview/assets/skins/sam/tabview.css'), {type=>"text/css",rel=>"stylesheet"});
+    $style->setLink( $url->yui2('build/paginator/assets/skins/sam/paginator.css'), {rel=>'stylesheet', type=>'text/css'});
+    $style->setLink( $url->yui2('build/datatable/assets/skins/sam/datatable.css'), {rel=>'stylesheet', type=>'text/css'});
+    $style->setLink( $url->yui2('build/menu/assets/skins/sam/menu.css'), {rel=>'stylesheet', type=>'text/css'});
     $style->setLink( $url->extras('yui-webgui/build/assetManager/assetManager.css' ), { rel => "stylesheet", type => 'text/css' } );
     $style->setLink( $url->extras('macro/AdminBar/slidePanel.css'), {type=>'text/css', rel=>'stylesheet'});
     $style->setLink( $url->extras('admin/admin.css'), { type=>'text/css', rel=>'stylesheet'} );
-    $style->setScript($url->extras('yui/build/yahoo-dom-event/yahoo-dom-event.js'), {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/utilities/utilities.js'), {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/yahoo-dom-event/yahoo-dom-event.js'), {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/utilities/utilities.js'), {type=>'text/javascript'});
     $style->setScript($url->extras('accordion/accordion.js'), {type=>'text/javascript'});
     $style->setScript($url->extras('admin/admin.js'), {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/element/element-min.js'), {type=>"text/javascript"});
-    $style->setScript( $url->extras( 'yui/build/paginator/paginator-min.js ' ) );
-    $style->setScript( $url->extras( 'yui/build/datasource/datasource-min.js ' ) );
-    $style->setScript( $url->extras( 'yui/build/datatable/datatable-min.js ' ) );
-    $style->setScript( $url->extras( 'yui/build/container/container-min.js' ) );
-    $style->setScript($url->extras('yui/build/tabview/tabview-min.js'), {type=>"text/javascript"});
-    $style->setScript($url->extras('yui/build/menu/menu-min.js'), {type=>"text/javascript"});
-    $style->setScript($url->extras('yui/build/button/button-min.js'), {type=>"text/javascript"});
+    $style->setScript($url->yui2('build/element/element-min.js'), {type=>"text/javascript"});
+    $style->setScript( $url->yui2( 'build/paginator/paginator-min.js ' ) );
+    $style->setScript( $url->yui2( 'build/datasource/datasource-min.js ' ) );
+    $style->setScript( $url->yui2( 'build/datatable/datatable-min.js ' ) );
+    $style->setScript( $url->yui2( 'build/container/container-min.js' ) );
+    $style->setScript($url->yui2('build/tabview/tabview-min.js'), {type=>"text/javascript"});
+    $style->setScript($url->yui2('build/menu/menu-min.js'), {type=>"text/javascript"});
+    $style->setScript($url->yui2('build/button/button-min.js'), {type=>"text/javascript"});
 
-    $style->setScript( $url->extras( 'yui/build/json/json-min.js' ) );
+    $style->setScript( $url->yui2( 'build/json/json-min.js' ) );
     $style->setScript( $url->extras( 'yui-webgui/build/i18n/i18n.js' ) );
 
     # Use the template in our __DATA__ block

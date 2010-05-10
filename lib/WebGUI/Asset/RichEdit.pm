@@ -610,8 +610,8 @@ sub getRichEditor {
 	$config{height} = $self->editorHeight if ($self->editorHeight > 0);
 	$config{plugins} = join(",",@plugins);
 
-    $self->session->style->setScript($self->session->url->extras('yui/build/yahoo/yahoo-min.js'),{type=>"text/javascript"});
-    $self->session->style->setScript($self->session->url->extras('yui/build/event/event-min.js'),{type=>"text/javascript"});
+    $self->session->style->setScript($self->session->url->yui2('build/yahoo/yahoo-min.js'),{type=>"text/javascript"});
+    $self->session->style->setScript($self->session->url->yui2('build/event/event-min.js'),{type=>"text/javascript"});
     $self->session->style->setScript($self->session->url->extras('tinymce/jscripts/tiny_mce/tiny_mce_src.js'),{type=>"text/javascript"});
     $self->session->style->setScript($self->session->url->extras("tinymce-webgui/callbacks.js"),{type=>"text/javascript"});
     my $out = '';

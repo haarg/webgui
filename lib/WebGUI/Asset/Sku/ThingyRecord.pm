@@ -208,15 +208,15 @@ Add the javascript needed for the edit form
 override getEditForm => sub {
     my ($self) = @_;
     $self->session->style->setScript(
-        $self->session->url->extras('yui/build/yahoo-dom-event/yahoo-dom-event.js'),
+        $self->session->url->yui2('build/yahoo-dom-event/yahoo-dom-event.js'),
         { type => "text/javascript" },
     );
     $self->session->style->setScript(
-        $self->session->url->extras('yui/build/connection/connection-min.js'),
+        $self->session->url->yui2('build/connection/connection-min.js'),
         { type => "text/javascript" },
     );
     $self->session->style->setScript(
-        $self->session->url->extras('yui/build/json/json-min.js'),
+        $self->session->url->yui2('build/json/json-min.js'),
         { type => "text/javascript" },
     );
     $self->session->style->setScript(

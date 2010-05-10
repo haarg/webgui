@@ -1722,11 +1722,11 @@ sub www_editThing {
     
     $tabForm->addTab('fields', $i18n->get('fields tab label'));
 
-    $self->session->style->setScript($self->session->url->extras('yui/build/utilities/utilities.js'), {type => 
+    $self->session->style->setScript($self->session->url->yui2('build/utilities/utilities.js'), {type => 
     'text/javascript'});
-    $self->session->style->setScript($self->session->url->extras('yui/build/yahoo-dom-event/yahoo-dom-event.js'), {type=> 
+    $self->session->style->setScript($self->session->url->yui2('build/yahoo-dom-event/yahoo-dom-event.js'), {type=> 
     'text/javascript'});
-    $self->session->style->setScript($self->session->url->extras('yui/build/connection/connection-min.js'), {type =>
+    $self->session->style->setScript($self->session->url->yui2('build/connection/connection-min.js'), {type =>
     'text/javascript'});
     $self->session->style->setScript($self->session->url->extras('wobject/Thingy/thingy.js'), {type=>
     'text/javascript'});

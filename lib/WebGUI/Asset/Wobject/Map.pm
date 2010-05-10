@@ -296,8 +296,8 @@ sub loadMapApiTags {
     my $style   = $self->session->style;
     my $url     = $self->session->url;
 
-    $style->setLink($url->extras('yui/build/container/assets/skins/sam/container.css'),{type=>'text/css',rel=>'stylesheet'});
-    $style->setLink($url->extras('yui/build/button/assets/skins/sam/button.css'),{type=>'text/css',rel=>'stylesheet'});
+    $style->setLink($url->yui2('build/container/assets/skins/sam/container.css'),{type=>'text/css',rel=>'stylesheet'});
+    $style->setLink($url->yui2('build/button/assets/skins/sam/button.css'),{type=>'text/css',rel=>'stylesheet'});
     $style->setScript("http://www.google.com/jsapi?key=" . $self->mapApiKey,{type=>"text/javascript"});
     $style->setRawHeadTags(<<'ENDHTML');
 <script type="text/javascript">
@@ -305,13 +305,13 @@ sub loadMapApiTags {
 </script>
 ENDHTML
     $style->setScript('http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/src/markermanager.js', {type=>"text/javascript"});
-    $style->setScript($url->extras('yui/build/yahoo-dom-event/yahoo-dom-event.js'),{type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/connection/connection-min.js'),{type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/dragdrop/dragdrop-min.js'),{type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/element/element-min.js'),{type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/button/button-min.js'),{type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/container/container-min.js'),{type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/json/json-min.js'),{type=>'text/javascript'});
+    $style->setScript($url->yui2('build/yahoo-dom-event/yahoo-dom-event.js'),{type=>'text/javascript'});
+    $style->setScript($url->yui2('build/connection/connection-min.js'),{type=>'text/javascript'});
+    $style->setScript($url->yui2('build/dragdrop/dragdrop-min.js'),{type=>'text/javascript'});
+    $style->setScript($url->yui2('build/element/element-min.js'),{type=>'text/javascript'});
+    $style->setScript($url->yui2('build/button/button-min.js'),{type=>'text/javascript'});
+    $style->setScript($url->yui2('build/container/container-min.js'),{type=>'text/javascript'});
+    $style->setScript($url->yui2('build/json/json-min.js'),{type=>'text/javascript'});
     $style->setScript($url->extras('yui-webgui/build/map/map.js'),{type=>'text/javascript'});
 
     return;

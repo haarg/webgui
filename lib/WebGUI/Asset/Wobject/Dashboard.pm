@@ -284,7 +284,7 @@ sub view {
 	my %vars = %{$self->get()};
 	
 	$self->session->style->setScript(
-      $self->session->url->extras('yui/build/utilities/utilities.js'),
+      $self->session->url->yui2('build/utilities/utilities.js'),
       { type=>'text/javascript' }
     );
 	

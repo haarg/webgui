@@ -148,6 +148,14 @@ sub extras {
     return $url;
 } ## end sub extras
 
+
+sub yui2 {
+    my $self = shift;
+    my $path = shift;
+    my $yuiBase = $self->session->config->get('yui2Base');
+    return join('/', $yuiBase, '2.8.0', $path);
+}
+
 #-------------------------------------------------------------------
 
 =head2 gateway ( pageURL [ , pairs ] )

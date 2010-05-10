@@ -308,10 +308,10 @@ override getToolbar => sub {
                 if ($userUiLevel >= $uiLevels->{"edit"});
         }
         $self->session->style->setLink($self->session->url->extras('assetToolbar/assetToolbar.css'), {rel=>"stylesheet",type=>"text/css"});
-        $self->session->style->setLink($self->session->url->extras('yui/build/menu/assets/skins/sam/menu.css'), {rel=>"stylesheet",type=>"text/css"});
-        $self->session->style->setScript($self->session->url->extras('yui/build/yahoo-dom-event/yahoo-dom-event.js'), {type=>"text/javascript"});
-        $self->session->style->setScript($self->session->url->extras('yui/build/container/container_core-min.js'), {type=>"text/javascript"});
-        $self->session->style->setScript($self->session->url->extras('yui/build/menu/menu-min.js'), {type=>"text/javascript"});
+        $self->session->style->setLink($self->session->url->yui2('build/menu/assets/skins/sam/menu.css'), {rel=>"stylesheet",type=>"text/css"});
+        $self->session->style->setScript($self->session->url->yui2('build/yahoo-dom-event/yahoo-dom-event.js'), {type=>"text/javascript"});
+        $self->session->style->setScript($self->session->url->yui2('build/container/container_core-min.js'), {type=>"text/javascript"});
+        $self->session->style->setScript($self->session->url->yui2('build/menu/menu-min.js'), {type=>"text/javascript"});
         $self->session->style->setScript($self->session->url->extras('assetToolbar/assetToolbar.js'), {type=>"text/javascript"});
         my $i18n = WebGUI::International->new($self->session, "Asset");
         return '<div class="yui-skin-sam wg-toolbar">'

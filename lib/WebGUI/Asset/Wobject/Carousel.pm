@@ -56,9 +56,9 @@ override getEditForm => sub {
 	my $tabform = super();
     my $i18n    = WebGUI::International->new($self->session, "Asset_Carousel");
 
-    $self->session->style->setScript($self->session->url->extras('yui/build/editor/editor-min.js'), {type =>
+    $self->session->style->setScript($self->session->url->yui2('build/editor/editor-min.js'), {type =>
     'text/javascript'});
-    $self->session->style->setLink($self->session->url->extras('yui/build/editor/assets/skins/sam/editor.css'), {type
+    $self->session->style->setLink($self->session->url->yui2('build/editor/assets/skins/sam/editor.css'), {type
     =>'text/css', rel=>'stylesheet'});
     $self->session->style->setScript($self->session->url->extras('wobject/Carousel/carousel.js'), {type =>
     'text/javascript'});

@@ -487,18 +487,18 @@ sub www_managePayouts {
     return $session->privilege->adminOnly() unless ($admin->canManage);
     
     # Load the required YUI stuff.
-    $style->setLink($url->extras('yui/build/paginator/assets/skins/sam/paginator.css'), {type=>'text/css', rel=>'stylesheet'});
-    $style->setLink($url->extras('yui/build/datatable/assets/skins/sam/datatable.css'), {type=>'text/css', rel=>'stylesheet'});
-    $style->setLink($url->extras('yui/build/button/assets/skins/sam/button.css'),       {type=>'text/css', rel=>'stylesheet'});
+    $style->setLink($url->yui2('build/paginator/assets/skins/sam/paginator.css'), {type=>'text/css', rel=>'stylesheet'});
+    $style->setLink($url->yui2('build/datatable/assets/skins/sam/datatable.css'), {type=>'text/css', rel=>'stylesheet'});
+    $style->setLink($url->yui2('build/button/assets/skins/sam/button.css'),       {type=>'text/css', rel=>'stylesheet'});
 
-    $style->setScript($url->extras('yui/build/yahoo-dom-event/yahoo-dom-event.js'), {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/element/element-min.js'),             {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/connection/connection-min.js'),       {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/json/json-min.js'),                   {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/paginator/paginator-min.js'),         {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/datasource/datasource-min.js'),       {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/datatable/datatable-min.js'),         {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/button/button-min.js'),               {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/yahoo-dom-event/yahoo-dom-event.js'), {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/element/element-min.js'),             {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/connection/connection-min.js'),       {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/json/json-min.js'),                   {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/paginator/paginator-min.js'),         {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/datasource/datasource-min.js'),       {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/datatable/datatable-min.js'),         {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/button/button-min.js'),               {type=>'text/javascript'});
     $style->setScript($url->extras('yui-webgui/build/i18n/i18n.js'),                {type=>'text/javascript'});
     $style->setScript($url->extras('VendorPayout/vendorPayout.js'),                 {type=>'text/javascript'});
 

@@ -129,15 +129,15 @@ sub www_view {
                showAdminBar        => 1
            } );
     my ($style, $url) = $session->quick(qw(style url));
-    $style->setLink($url->extras('/yui/build/fonts/fonts-min.css'), {rel=>'stylesheet', type=>'text/css'});
-    $style->setLink($url->extras('yui/build/datatable/assets/skins/sam/datatable.css'), {rel=>'stylesheet', type => 'text/CSS'});
-    $style->setLink($url->extras('yui/build/paginator/assets/skins/sam/paginator.css'), {rel=>'stylesheet', type => 'text/CSS'});
-    $style->setScript($url->extras('/yui/build/utilities/utilities.js'), {type=>'text/javascript'});
-    $style->setScript($url->extras('yui/build/json/json-min.js'), {type => 'text/javascript'});
-    $style->setScript($url->extras('yui/build/paginator/paginator-min.js'), {type => 'text/javascript'});
-    $style->setScript($url->extras('yui/build/datasource/datasource-min.js'), {type => 'text/javascript'});
+    $style->setLink($url->yui2('build/fonts/fonts-min.css'), {rel=>'stylesheet', type=>'text/css'});
+    $style->setLink($url->yui2('build/datatable/assets/skins/sam/datatable.css'), {rel=>'stylesheet', type => 'text/CSS'});
+    $style->setLink($url->yui2('build/paginator/assets/skins/sam/paginator.css'), {rel=>'stylesheet', type => 'text/CSS'});
+    $style->setScript($url->yui2('build/utilities/utilities.js'), {type=>'text/javascript'});
+    $style->setScript($url->yui2('build/json/json-min.js'), {type => 'text/javascript'});
+    $style->setScript($url->yui2('build/paginator/paginator-min.js'), {type => 'text/javascript'});
+    $style->setScript($url->yui2('build/datasource/datasource-min.js'), {type => 'text/javascript'});
     ##YUI Datatable
-    $style->setScript($url->extras('yui/build/datatable/datatable-min.js'), {type => 'text/javascript'});
+    $style->setScript($url->yui2('build/datatable/datatable-min.js'), {type => 'text/javascript'});
     ##WebGUI YUI AssetHistory
     $style->setScript( $url->extras( 'yui-webgui/build/i18n/i18n.js' ), {type => 'text/javascript'} );
     $style->setScript( $url->extras('yui-webgui/build/assetHistory/assetHistory.js'), {type => 'text/javascript'});

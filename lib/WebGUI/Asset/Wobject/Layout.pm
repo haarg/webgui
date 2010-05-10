@@ -289,9 +289,9 @@ sub prepareView {
     if ($vars{showAdmin}) {
         # under normal circumstances we don't put HTML stuff in our code, but this will make it much easier
         # for end users to work with our templates
-        $session->style->setScript($session->url->extras("yui/build/yahoo-dom-event/yahoo-dom-event.js"),{ type=>"text/javascript" });
-        $session->style->setScript($session->url->extras("yui/build/animation/animation-min.js"),{ type=>"text/javascript" });
-        $session->style->setScript($session->url->extras("yui/build/dragdrop/dragdrop.js"),{ type=>"text/javascript" });
+        $session->style->setScript($session->url->yui2("build/yahoo-dom-event/yahoo-dom-event.js"),{ type=>"text/javascript" });
+        $session->style->setScript($session->url->yui2("build/animation/animation-min.js"),{ type=>"text/javascript" });
+        $session->style->setScript($session->url->yui2("build/dragdrop/dragdrop.js"),{ type=>"text/javascript" });
         $session->style->setScript($session->url->extras("yui-webgui/build/layout/draggable.js"),{ type=>"text/javascript" });
 
         $session->style->setLink($session->url->extras("draggable.css"),{ type=>"text/css", rel=>"stylesheet", media=>"all" });
