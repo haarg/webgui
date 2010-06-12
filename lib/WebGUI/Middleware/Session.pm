@@ -3,11 +3,11 @@ use strict;
 use parent qw(Plack::Middleware);
 use WebGUI::Config;
 use WebGUI::Session;
-use WebGUI::Utility ();
 use Try::Tiny;
 use WebGUI::Middleware::HTTPExceptions;
 use Plack::Middleware::SimpleLogger;
 use Plack::Util::Accessor qw( config );
+use Net::CIDR::Lite;
 
 =head1 NAME
 
@@ -87,7 +87,7 @@ sub canShowDebug {
         if $ips eq '';
     $ips =~ s/\s+//g;
     my @ips = split /,/, $ips;
-    my $ok = WebGUI::Utility::isInSubnet($session->env->getIp, [ @ips ] );
+    my $ok = Net::CIDR::Lite->new(@ips)->find($env->{REMOTE_ADDR});
     return $ok;
 }
 

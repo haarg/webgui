@@ -85,7 +85,6 @@ use JSON;
 use WebGUI::HTMLForm;
 use WebGUI::International;
 use WebGUI::Shop::AddressBook;
-use WebGUI::Utility;
 
 =head1 NAME
 
@@ -284,7 +283,7 @@ sub onRefund {
 	# get rid of any items in the cart related to this badge
 	foreach my $cartitem (@{$self->getCart->getItems()}) {
 		my $sku = $cartitem->getSku;
-		if (isIn((ref $sku), qw(WebGUI::Asset::Sku::EMSTicket WebGUI::Asset::Sku::EMSRibbon WebGUI::Asset::Sku::EMSToken))) {
+		if ((ref $sku) ~~ [qw(WebGUI::Asset::Sku::EMSTicket WebGUI::Asset::Sku::EMSRibbon WebGUI::Asset::Sku::EMSToken)]) {
 			if ($sku->getOptions->{badgeId} eq $badgeId) {
 				$cartitem->remove;
 			}
@@ -309,7 +308,7 @@ sub onRemoveFromCart {
 	my $badgeId = $self->getOptions->{badgeId};
 	foreach my $cartitem (@{$item->cart->getItems()}) {
 		my $sku = $cartitem->getSku;
-		if (isIn((ref $sku), qw(WebGUI::Asset::Sku::EMSTicket WebGUI::Asset::Sku::EMSRibbon WebGUI::Asset::Sku::EMSToken))) {
+		if ((ref $sku) ~~ [qw(WebGUI::Asset::Sku::EMSTicket WebGUI::Asset::Sku::EMSRibbon WebGUI::Asset::Sku::EMSToken)]) {
 			if ($sku->getOptions->{badgeId} eq $badgeId) {
 				$cartitem->remove;
 			}

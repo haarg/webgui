@@ -14,7 +14,6 @@ use lib "$FindBin::Bin/../lib";
 
 use WebGUI::Test;
 use WebGUI::Session;
-use WebGUI::Utility;
 
 use Test::More;
 
@@ -64,7 +63,7 @@ my $isValid = 1;
 for (1..2000) {
 	last unless $isUnique;
 	my $id = $session->id->generate();
-	$isUnique = ($isUnique ? !isIn($id,@uniqueIds) : 0);
+	$isUnique = ($isUnique ? !$id ~~ @uniqueIds : 0);
 	$isValid = ($isValid ? $session->id->valid($id) : 0);
 	push(@uniqueIds,$id);
 }

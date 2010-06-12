@@ -16,7 +16,6 @@ use WebGUI::Test;
 use WebGUI::Form::FieldType;
 use WebGUI::Form::DynamicField;
 use WebGUI::Session;
-use WebGUI::Utility;
 
 #The goal of this test is to verify that the isDynamicCompatible setting
 #works on all form elements and that only the correct forms are profile
@@ -45,7 +44,7 @@ my @notEnabled = qw/Button Control List MimeType SubscriptionGroup Slider Submit
 foreach my $formType (@formTypes) {
 	my $form = WebGUI::Form::DynamicField->new($session, fieldType => $formType);
 	my $ref = (split /::/, ref $form)[-1];
-	if (isIn($ref, @notEnabled)) {
+	if ($ref ~~ @notEnabled) {
 		ok(!$form->isDynamicCompatible, " $ref should not be profile enabled");
 	}
 	else {

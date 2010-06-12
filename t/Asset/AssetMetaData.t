@@ -17,7 +17,6 @@ use lib "$FindBin::Bin/../lib";
 
 use WebGUI::Test;
 use WebGUI::Session;
-use WebGUI::Utility;
 use WebGUI::Asset;
 use WebGUI::VersionTag;
 

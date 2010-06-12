@@ -187,7 +187,6 @@ with 'WebGUI::Role::Asset::RssFeed';
 use WebGUI::International;
 use HTML::Parser;
 use URI::Escape;
-use WebGUI::Utility qw/isIn/;
 
 #-------------------------------------------------------------------
 
@@ -359,8 +358,7 @@ sub autolinkHtml {
     my %mapping = $self->session->db->buildHash("SELECT LOWER(d.title), d.url FROM asset AS i INNER JOIN assetData AS d ON i.assetId = d.assetId WHERE i.parentId = ? and className='WebGUI::Asset::WikiPage' and i.state='published' and d.status='approved' order by d.revisionDate ASC", [$self->getId]);
     TITLE: foreach my $title (keys %mapping) {
         my $url = delete $mapping{$title};
-        ##isIn short circuits and is faster than grep and/or first
-        next TITLE if isIn($title, @skipTitles);
+        next TITLE if $title ~~ @skipTitles;
         $mapping{$title} = $self->session->url->gateway($url);
     }   
 

@@ -17,7 +17,6 @@ package WebGUI::Content::AssetDiscovery;
 use strict;
 use JSON;
 use WebGUI::Asset;
-use WebGUI::Utility;
 use XML::Simple;
 
 =head1 NAME
@@ -116,7 +115,7 @@ sub handler {
             while (my ($id) = $matchingAssets->array) {
                 my $asset = eval { WebGUI::Asset->newById($session, $id); };
                 if (! Exception::Class->caught() ) {
-                    if ($asset->canView && $asset->state eq 'published' && isIn($asset->status, 'approved', 'archived')) {
+                    if ($asset->canView && $asset->state eq 'published' && $asset->status ~~ [('approved', 'archived')]) {
                         push @assets, {
                             title       => $asset->getTitle,
                             menuTitle   => $asset->menuTitle,

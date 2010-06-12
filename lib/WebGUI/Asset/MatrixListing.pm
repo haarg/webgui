@@ -117,7 +117,6 @@ property lastUpdated => (
          );
 
 with 'WebGUI::Role::Asset::Comments';
-use WebGUI::Utility;
 
 
 =head1 NAME
@@ -534,7 +533,7 @@ sub setRatings {
         my $sum     = $db->quickScalar("select sum(rating) $sql", [$self->getId,$category]);
         my $count   = $db->quickScalar("select count(*) $sql", [$self->getId,$category]);
         
-        my $half    = round($count/2);
+        my $half    = sprintf '%d', $count / 2;
         my $mean    = $sum / ($count || 1);
         my $median  = $db->quickScalar("select rating $sql order by rating limit $half,1",[$self->getId,$category]);
         

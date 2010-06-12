@@ -18,9 +18,9 @@ use WebGUI::Pluggable;
 use WebGUI::Workflow;
 use WebGUI::Workflow::Activity;
 use WebGUI::Workflow::Instance;
-use WebGUI::Utility;
 use POE::Component::IKC::ClientLite;
 use JSON qw/ decode_json /;
+use Net::CIDR::Lite;
 
 =head1 NAME
 
@@ -482,8 +482,8 @@ sub www_runWorkflow {
         my $session = shift;
 	$session->http->setMimeType("text/plain");
 	$session->http->setCacheControl("none");
-	unless (isInSubnet($session->env->getIp, $session->config->get("spectreSubnets")) || canRunWorkflow($session)) {
-		$session->errorHandler->security("make a Spectre workflow runner request, but we're only allowed to accept requests from ".join(",",@{$session->config->get("spectreSubnets")}).".");
+	unless (Net::CIDR::Lite->new(@{$session->config->get("spectreSubnets")})->find($session->env->getIp) || canRunWorkflow($session)) {
+		$session->log->security("make a Spectre workflow runner request, but we're only allowed to accept requests from ".join(",",@{$session->config->get("spectreSubnets")}).".");
         	return "error";
 	}
 	my $instanceId = $session->form->param("instanceId");

@@ -275,7 +275,6 @@ sub _workflowIdCommit_builder {
     return shift->session->setting->get('defaultVersionTagWorkflow'),
 }
 
-use WebGUI::Utility;
 use WebGUI::International;
 use WebGUI::Search;
 use WebGUI::Form;
@@ -1020,7 +1019,7 @@ override processPropertiesFromFormPost => sub {
     my @oldFeeds = map { $_->{feedId} } @{ $self->getFeeds };
 
     for my $feedId (@oldFeeds) {
-        if (!isIn($feedId, @feedsFromForm)) {
+        if (! $feedId ~~ @feedsFromForm) {
             $self->deleteFeed($feedId);
         }
     }

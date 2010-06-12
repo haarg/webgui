@@ -6,7 +6,7 @@ use JSON qw( from_json to_json );
 use URI;
 use WebGUI::Form;
 use WebGUI::Paginator;
-use WebGUI::Utility;
+use Number::Format;
 use WebGUI::Macro::AdminBar;
 use Tie::IxHash;
 
@@ -645,7 +645,7 @@ sub www_search {
                     revisionDate    => $session->datetime->epochToHuman( $asset->get( "revisionDate" ) ),
                     hasChildren     => ( $asset->hasChildren ? "+&nbsp;" : "&nbsp;&nbsp;" ),
                     rank            => $asset->getRank,
-                    size            => formatBytes( $asset->get( 'assetSize' ) ),
+                    size            => Number::Format::format_bytes( $asset->get( 'assetSize' ) ),
                 );
 
                 # The asset icon

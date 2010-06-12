@@ -21,7 +21,6 @@ use DateTime::Format::Mail;
 use DateTime::TimeZone;
 use Tie::IxHash;
 use WebGUI::International;
-use WebGUI::Utility qw(round isIn);
 use Scalar::Util qw(weaken);
 
 
@@ -607,12 +606,10 @@ sub getTimeZone {
 	my @zones = @{DateTime::TimeZone::all_names()};
 	my $zone = $self->session->user->profileField('timeZone');
 	$zone =~ s/ /\_/g;
-	if ($zone) {
-        if (isIn($zone, @zones)) {
-				$self->session->user->{_timeZone} = $zone;
-				return $zone;
-		}
-	}
+    if ($zone ~~ @zones) {
+        $self->session->user->{_timeZone} = $zone;
+        return $zone;
+    }
 	$self->session->user->{_timeZone} = 'America/Chicago';
 	return $self->session->user->{_timeZone};
 }
@@ -815,39 +812,39 @@ The number of seconds in the interval.
 =cut
 
 sub secondsToInterval {
-	my $self = shift;
-	my $seconds = shift;
+    my $self = shift;
+    my $interval = shift;
     my $i18n = WebGUI::International->new($self->session, 'WebGUI');
-	my ($interval, $units);
-	if ($seconds >= 31536000) {
-		$interval = round($seconds/31536000);
-		$units = $i18n->get("703");
-	}
-    elsif ($seconds >= 2592000) {
-        $interval = round($seconds/2592000);
+    my $units;
+    if ($interval >= 31536000) {
+        $interval /= 31536000;
+        $units = $i18n->get("703");
+    }
+    elsif ($interval >= 2592000) {
+        $interval /= 2592000;
         $units = $i18n->get("702");
-	}
-    elsif ($seconds >= 604800) {
-        $interval = round($seconds/604800);
+    }
+    elsif ($interval >= 604800) {
+        $interval /= 604800;
         $units = $i18n->get("701");
-	}
-    elsif ($seconds >= 86400) {
-        $interval = round($seconds/86400);
+    }
+    elsif ($interval >= 86400) {
+        $interval /= 86400;
         $units = $i18n->get("700");
     }
-    elsif ($seconds >= 3600) {
-        $interval = round($seconds/3600);
+    elsif ($interval >= 3600) {
+        $interval /= 3600;
         $units = $i18n->get("706");
     }
-    elsif ($seconds >= 60) {
-        $interval = round($seconds/60);
+    elsif ($interval >= 60) {
+        $interval /= 60;
         $units = $i18n->get("705");
     }
     else {
-        $interval = $seconds;
         $units = $i18n->get("704");
-	}
-	return ($interval, $units);
+    }
+    $interval = sprintf '%d', $interval;
+    return ($interval, $units);
 }
 
 #-------------------------------------------------------------------

@@ -202,7 +202,6 @@ use WebGUI::Exception;
 use WebGUI::FormValidator;
 use WebGUI::HTMLForm;
 use WebGUI::International;
-use WebGUI::Utility;
 use WebGUI::Workflow::Instance;
 use Data::Dumper;
 
@@ -398,7 +397,7 @@ sub getEventFieldsForImport {
 	foreach my $definition (@{WebGUI::Asset::Sku::EMSTicket->definition($self->session)}) {
 		$count++;
 		foreach my $field (keys %{$definition->{properties}}) {
-			next if ($count > 1 && !isIn($field, qw(title description)));
+			next if ($count > 1 && ! $field ~~ [qw(title description)]);
 			next unless ($definition->{properties}{$field}{label} ne "");
 			push(@fields, {
 				name 	 		=> $field,
@@ -1854,7 +1853,7 @@ className='WebGUI::Asset::Sku::EMSTicket' and state='published' and revisionDate
 	foreach my $id (@ids) {
 
 		# skip tickets we already have
-		if (isIn($id, @existingTickets)) {
+		if ($id ~~ @existingTickets) {
 			$totalTickets--;
 			next;
 		}
@@ -2123,7 +2122,7 @@ $|=1;
 				my $metadata = $event->getEventMetaData;
 				my $i = 0;
 				foreach my $field (@{$fields}) {
-					next unless isIn($field->{name}, @import);
+					next unless $field->{name} ~~ @import;
             		$out->print("\tAdding field ".$field->{label}."\n",1);
 					my $type = $field->{type};
                     ##Force the use of Form::DateTime and MySQL Format

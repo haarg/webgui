@@ -7,7 +7,6 @@ use WebGUI::International;
 use WebGUI::Pluggable;
 use WebGUI::ProfileCategory;
 use WebGUI::ProfileField;
-use WebGUI::Utility;
 use base qw/WebGUI::Account/;
 
 =head1 NAME
@@ -242,7 +241,7 @@ sub getExtrasStyle {
     my $requiredStyle    = q{class="profilefield_required"};
     my $errorStyle       = q{class="profilefield_error"};     #Required Field Not Filled In and Error Returend
 
-    return $errorStyle if(WebGUI::Utility::isIn($field->getId,@{$fieldErrors}));
+    return $errorStyle if ($field->getId ~~ $fieldErrors);
     return "" unless ($field->isRequired);
     return $requiredStyle unless($self->session->user->profileField($field->getId) || $fieldValue);
     return $requiredStyleOff;

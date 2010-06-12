@@ -13,7 +13,6 @@ package WebGUI::Asset::Wobject::UserList;
 use strict;
 use HTML::Entities;
 use Tie::IxHash;
-use WebGUI::Utility;
 use WebGUI::Asset::Wobject;
 use WebGUI::Operation::Shared;
 use WebGUI::International;
@@ -227,7 +226,7 @@ sub getFormElement {
         $param{value} = ($data->{defaultValue} =~ /checked/xi) ? 1 : "";
     }
 
-    if (WebGUI::Utility::isIn($data->{fieldType},qw(SelectList CheckList SelectBox Attachments SelectSlider))) {
+    if ($data->{fieldType} ~~ [qw(SelectList CheckList SelectBox Attachments SelectSlider)]) {
         my @defaultValues;
         if ($self->session->form->param($name)) {
                     @defaultValues = $self->session->form->selectList($name);
@@ -357,7 +356,7 @@ sub view {
 
     my $currentUrlWithoutSort = $self->getUrl();
     foreach ($form->param) {
-        unless (WebGUI::Utility::isIn($_,qw(sortBy sortOrder op func)) || $_ =~ /identifier/i || $_ =~ /password/i) {
+        unless ($_ ~~ [qw(sortBy sortOrder op func)] || $_ =~ /identifier/i || $_ =~ /password/i) {
             $currentUrlWithoutSort = $url->append($currentUrlWithoutSort, $url->escape($_)
             .'='.$url->escape($form->process($_)));
         }
@@ -499,7 +498,7 @@ sub view {
 	my $sortOrder = $form->process('sortOrder') || $self->sortOrder || 'asc';
 	
     my @sortByUserProperties = ('dateCreated', 'lastUpdated', 'karma', 'userId');
-    if(isIn($sortBy,@sortByUserProperties)){
+    if($sortBy ~~ @sortByUserProperties){
             $sortBy = 'users.'.$sortBy;
     }
 	$sql .= " order by ".$sortBy." ".$sortOrder;
@@ -549,7 +548,7 @@ sub view {
                     # Handle special case of alias, which does not have a default value but is set to the username by default
                     $value = $user->{userName} if ($profileFieldName eq 'alias' && $value eq '');
                     my %profileFieldValues;
-                    if (WebGUI::Utility::isIn(ucfirst $profileField->{fieldType},qw(File Image)) && $value ne ''){
+                    if ((ucfirst $profileField->{fieldType}) ~~ [qw(File Image)] && $value ne ''){
                         my $file = WebGUI::Form::DynamicField->new($self->session,
                             fieldType=>$profileField->{fieldType},
                             value=>$value

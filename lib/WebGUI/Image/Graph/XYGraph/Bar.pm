@@ -4,7 +4,6 @@ use strict;
 use WebGUI::Image::Graph::XYGraph;
 use List::Util;
 use POSIX;
-use WebGUI::Utility;
 
 our @ISA = qw(WebGUI::Image::Graph::XYGraph);
 
@@ -251,7 +250,7 @@ sub getAnchorSpacing {
 
 	my $numberOfGroups = List::Util::max(map {scalar @$_} @{$self->getDataset});
 
-	my $spacing = round(($self->getChartWidth - ($numberOfGroups-1) * $self->getGroupSpacing) / $numberOfGroups + $self->getGroupSpacing);
+	my $spacing = sprintf('%d',($self->getChartWidth - ($numberOfGroups-1) * $self->getGroupSpacing) / $numberOfGroups + $self->getGroupSpacing);
 
 	return {
 		x	=> $spacing,
@@ -320,7 +319,7 @@ sub getFirstAnchorLocation {
 	my $self = shift;
 
 	return {
-		x	=> round($self->getChartOffset->{x} + ($self->getAnchorSpacing->{x} - $self->getGroupSpacing) / 2),
+		x	=> sprintf('%d', $self->getChartOffset->{x} + ($self->getAnchorSpacing->{x} - $self->getGroupSpacing) / 2),
 		y	=> $self->getChartOffset->{y} + $self->getChartHeight
 	}
 }

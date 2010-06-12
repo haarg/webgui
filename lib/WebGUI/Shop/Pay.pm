@@ -22,7 +22,6 @@ use WebGUI::International;
 use WebGUI::Pluggable;
 use WebGUI::Shop::Admin;
 #use WebGUI::Shop::PayDriver;
-use WebGUI::Utility;
 use Tie::IxHash;
 
 =head1 NAME
@@ -70,7 +69,7 @@ sub addPaymentGateway {
     WebGUI::Error::InvalidParam->throw(error => q{Must provide a class to create an object})
         unless defined $requestedClass;
     WebGUI::Error::InvalidParam->throw(error => q{The requested class is not enabled in your WebGUI configuration file}, param => $requestedClass)
-        unless isIn($requestedClass, (keys %{$self->getDrivers}) );
+        unless exists $self->getDrivers->{$requestedClass};
     WebGUI::Error::InvalidParam->throw(error => q{You must pass a hashref of options to create a new PayDriver object})
         unless defined($options) and ref $options eq 'HASH' and scalar keys %{ $options };
     my $driver = eval { WebGUI::Pluggable::instanciate($requestedClass, 'create', [ $self->session, $options ]) };

@@ -14,7 +14,6 @@ use Test::More;
 use Test::Deep;
 use Test::Exception;
 use WebGUI::Test;
-use WebGUI::Utility;
 use Data::Dumper;
 
 sub assetUiLevel {

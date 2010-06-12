@@ -142,7 +142,6 @@ property ticketId => (
 with 'WebGUI::Role::Asset::Comments';
 
 use Tie::IxHash;
-use WebGUI::Utility;
 use WebGUI::Inbox;
 
 =head1 NAME

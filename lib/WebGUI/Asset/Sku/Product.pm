@@ -16,7 +16,6 @@ use Tie::IxHash;
 use WebGUI::HTMLForm;
 use WebGUI::Storage;
 use WebGUI::SQL;
-use WebGUI::Utility;
 use JSON;
 
 use Moose;
@@ -1108,7 +1107,7 @@ sub www_deleteFileConfirm {
     my $self = shift;
     return $self->session->privilege->insufficient() unless ($self->canEdit);
     my $column = $self->session->form->process("file");
-    return $self->www_edit  unless (isIn($column, qw(image1 image2 image3 manual warranty brochure)));
+    return $self->www_edit  unless ($column ~~ [qw(image1 image2 image3 manual warranty brochure)]);
     my $store = $self->get($column);
     my $file = WebGUI::Storage->get($self->session,$store);
     $file->delete if defined $file;

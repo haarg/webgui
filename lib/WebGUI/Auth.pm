@@ -17,7 +17,6 @@ package WebGUI::Auth;
 use strict qw(subs vars);
 use WebGUI::International;
 use WebGUI::Asset::Template;
-use WebGUI::Utility;
 use WebGUI::User;
 use WebGUI::Workflow::Instance;
 use WebGUI::Inbox;
@@ -800,7 +799,7 @@ Returns whether or not a method is callable
 
 sub isCallable {
 	my $self = shift;
-	return isIn($_[0],@{$self->{callable}})
+	return($_[0] ~~ $self->{callable});
 }
 
 #-------------------------------------------------------------------

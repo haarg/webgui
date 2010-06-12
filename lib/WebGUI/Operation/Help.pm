@@ -15,7 +15,6 @@ use WebGUI::AdminConsole;
 use WebGUI::International;
 use WebGUI::Asset::Template;
 use WebGUI::Macro;
-use WebGUI::Utility;
 use WebGUI::TabForm;
 use WebGUI::Pluggable;
 
@@ -232,7 +231,7 @@ A scalar ref to the array of data that will be broken into columns.
 sub _columnar {
 	my ($columns, $list) = @_;
 	my @entries = @{ $list };
-	my $fraction = round(@entries/$columns + 0.50);
+	my $fraction = sprintf('%d', @entries/$columns + 0.50);
 	my $output = '<tr><td valign="top">';
 	@entries = sort { $a->{name} cmp $b->{name} } @entries;
 	my $i = 0;
@@ -371,7 +370,7 @@ sub www_viewHelpIndex {
         }
     }
 	my $output = '<table width="100%" class="content"><tr><td valign="top">';
-	my $halfway = round(@helpIndex / 2);
+	my $halfway = sprintf('%d',@helpIndex / 2);
 	my $i = 0;
         @helpIndex = sort { $a->[2] cmp $b->[2] } @helpIndex;
         foreach my $helpEntry (@helpIndex) {

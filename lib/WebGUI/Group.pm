@@ -17,11 +17,11 @@ package WebGUI::Group;
 use strict;
 use WebGUI::LDAPLink;
 use WebGUI::Macro;
-use WebGUI::Utility;
 use WebGUI::Pluggable;
 require WebGUI::Asset;
 use WebGUI::International;
 use WebGUI::DatabaseLink;
+use Net::CIDR::Lite;
 
 =head1 NAME
 
@@ -134,7 +134,7 @@ sub addGroups {
 		my ($isIn) = $self->session->db->quickArray("select count(*) from groupGroupings where groupId=? and inGroup=?", [$gid, $self->getId]);
         next GROUP if $isIn;
 		my $group = WebGUI::Group->new($self->session, $gid);
-		my $recursive = isIn($self->getId, @{$group->getGroupsIn(1)});
+		my $recursive = $self->getId ~~ $group->getGroupsIn(1);
         next GROUP if $recursive;
         $self->session->db->write("insert into groupGroupings (groupId,inGroup) values (?,?)",[$gid, $self->getId]);
 	}
@@ -730,7 +730,7 @@ sub getIpUsers {
 	my @ipUsers = ();
 	while (my ($userId, $lastIP) = $sth->array() ) {
 		if (!exists $localCache{$lastIP}) {
-			$localCache{$lastIP} = isInSubnet($lastIP, \@filters);	
+			$localCache{$lastIP} = Net::CIDR::Lite->new(@filters)->find($lastIP);
 		}
 		push @ipUsers, $userId if $localCache{$lastIP};
 	}
@@ -1569,7 +1569,7 @@ sub vitalGroup {
     if (! $groupId && ref $class ) {
         $groupId = $class->getId;
     }
-    return isIn ( $groupId, (1..17), qw/pbgroup000000000000015 pbgroup000000000000016 pbgroup000000000000017 / );
+    return $groupId ~~ [1 .. 17, qw/pbgroup000000000000015 pbgroup000000000000016 pbgroup000000000000017/];
 }
 
 1;

@@ -19,9 +19,7 @@ use strict;
 use URI;
 use URI::Escape;
 use WebGUI::International;
-use WebGUI::Utility;
 use Scalar::Util qw(weaken);
-
 
 =head1 NAME
 
@@ -180,7 +178,7 @@ sub gateway {
         my $url = $self->make_urlmap_work($self->session->config->get("gateway")).'/'.$pageUrl;
 	$url =~ s/\/+/\//g;
         if ($self->session->setting->get("preventProxyCache") == 1 and !$skipPreventProxyCache) {
-                $url = $self->append($url,"noCache=".randint(0,1000).':'.time());
+                $url = $self->append($url,"noCache=".int(rand(1000)).':'.time());
         }
 	if ($pairs) {
 		$url = $self->append($url,$pairs);
@@ -347,7 +345,7 @@ sub getSiteURL {
         my $site = "";
         my $sitenames = $self->session->config->get("sitename");
         my ($http_host,$currentPort) = split(':', $self->session->env->get("HTTP_HOST"));
-        if ($self->session->setting->get("hostToUse") eq "HTTP_HOST" and isIn($http_host,@{$sitenames})) {
+        if ($self->session->setting->get("hostToUse") eq "HTTP_HOST" and $http_host ~~ $sitenames) {
                 $site = $http_host;
         } else {
                 $site = $sitenames->[0];

@@ -17,7 +17,7 @@ use WebGUI::HTMLForm;
 use WebGUI::International;
 use WebGUI::Workflow::Cron;
 use WebGUI::Workflow::Instance;
-use WebGUI::Utility;
+use Net::CIDR::Lite;
 
 =head1 NAME
 
@@ -271,8 +271,8 @@ sub www_runCronJob {
         my $session = shift;
 	$session->http->setMimeType("text/plain");
 	$session->http->setCacheControl("none");
-	unless (isInSubnet($session->env->getIp, $session->config->get("spectreSubnets")) || canView($session)) {
-		$session->errorHandler->security("make a Spectre cron job runner request, but we're only allowed to accept requests from ".join(",",@{$session->config->get("spectreSubnets")}).".");
+	unless (Net::CIDR::Lite->new(@{$session->config->get("spectreSubnets")})->find($session->env->getIp) || canView($session)) {
+		$session->log->security("make a Spectre cron job runner request, but we're only allowed to accept requests from ".join(",",@{$session->config->get("spectreSubnets")}).".");
         	return "error";
 	}
 	my $taskId = $session->form->param("taskId");

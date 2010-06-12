@@ -63,7 +63,6 @@ sub _newsletterCategories_options {
 
 use WebGUI::Form;
 use WebGUI::International;
-use WebGUI::Utility;
 
 #-------------------------------------------------------------------
 
@@ -184,7 +183,7 @@ sub www_mySubscriptions {
     my @userPrefs = $self->getUserSubscriptions;
     foreach my $id (keys %{$meta}) {
         my @options = ();
-        if (isIn($id, split("\n", $self->newsletterCategories))) {
+        if ($id ~~ split("\n", $self->newsletterCategories)) {
             foreach my $option (split("\n", $meta->{$id}{possibleValues})) {
                 $option =~ s/\s+$//;    # remove trailing spaces
                 next if $option eq "";  # skip blank values
@@ -194,7 +193,7 @@ sub www_mySubscriptions {
                     optionForm  => WebGUI::Form::checkbox($self->session, {
                             name    => "subscriptions",
                             value   => $preferenceName,
-                            checked => isIn($preferenceName, @userPrefs),
+                            checked => $preferenceName ~~ @userPrefs,
                             })
                     });
             }

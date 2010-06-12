@@ -5,7 +5,6 @@ use Class::InsideOut qw{ :std };
 use WebGUI::Shop::Admin;
 use WebGUI::Exception::Shop;
 use WebGUI::International;
-use WebGUI::Utility qw{ isIn };
 use List::Util qw{ sum };
 use JSON qw{ encode_json };
 
@@ -596,7 +595,7 @@ sub www_setPayoutStatus {
     return $session->privilege->adminOnly() unless ($admin->canManage);
 
     my $status  = $form->process('status');
-    return "error: wrong status [$status]" unless isIn( $status, qw{ NotPaid Scheduled } );
+    return "error: wrong status [$status]" unless $status ~~ [qw( NotPaid Scheduled )];
 
     my @itemIds;
     if ( $form->process( 'all' ) ) {

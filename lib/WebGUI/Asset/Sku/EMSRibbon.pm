@@ -37,7 +37,6 @@ property percentageDiscount => (
          );
 
 use WebGUI::HTMLForm;
-use WebGUI::Utility;
 
 =head1 NAME
 
@@ -232,8 +231,8 @@ sub www_delete {
 	my ($self) = @_;
 	return $self->session->privilege->insufficient() unless ($self->canEdit && $self->canEditIfLocked);
     return $self->session->privilege->vitalComponent() if $self->isSystem;
-    return $self->session->privilege->vitalComponent() if (isIn($self->getId,
-$self->session->setting->get("defaultPage"), $self->session->setting->get("notFoundPage")));
+    return $self->session->privilege->vitalComponent() if ($self->getId ~~ 
+        ( $self->session->setting->get("defaultPage"), $self->session->setting->get("notFoundPage") ));
     $self->trash;
     return $self->getParent->www_buildBadge(undef,'ribbons');
 }

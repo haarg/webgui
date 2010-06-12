@@ -23,7 +23,6 @@ use Tie::IxHash;
 use Clone qw/clone/;
 use WebGUI::DateTime;
 use WebGUI::Exception;
-use WebGUI::Utility;
 
 private objectData => my %objectData;
 readonly session => my %session;
@@ -445,7 +444,7 @@ sub crud_updateTable {
 	my $sth = $db->read("DESCRIBE ".$tableName);
 	my $tableKey = $class->crud_getTableKey($session);
 	while (my ($col, $type, $null, $key, $default) = $sth->array) {
-		next if (isIn($col, $tableKey, 'lastUpdated', 'dateCreated','sequenceNumber'));
+		next if ($col ~~ [($tableKey, 'lastUpdated', 'dateCreated','sequenceNumber')]);
 		$tableFields{$col} = {
 			type	=> $type,
 			null	=> $null,

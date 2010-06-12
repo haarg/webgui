@@ -70,7 +70,6 @@ property photo => (
 
 with 'WebGUI::Role::Asset::AlwaysHidden';
 
-use WebGUI::Utility;
 use WebGUI::International;
 use JSON qw/from_json to_json/;
 use Storable qw/dclone/;
@@ -234,7 +233,7 @@ sub formatDuration {
         if ($hours[0]) {
             $formattedDuration = join ' ', @hours;
         }
-        my $minutes = round(($duration - $hours)/60)*60;
+        my $minutes = 60 * sprintf('%d', ($duration - $hours)/60);
         my @minutes = $datetime->secondsToInterval($minutes);
         if ($minutes[0]) {
             $formattedDuration .= ', ', if $formattedDuration;

@@ -5,7 +5,6 @@ use strict;
 use WebGUI::Asset;
 use WebGUI::International;
 use WebGUI::Exception;
-use WebGUI::Utility;
 use WebGUI::Macro;
 use URI;
 use Path::Class;
@@ -38,7 +37,7 @@ it will return 0 and an error message.
 
 sub addFile {
     my ($self, $type, $uri) = @_;
-    return 0, 'Illegal type' unless WebGUI::Utility::isIn($type, 'JS', 'CSS', 'OTHER');
+    return 0, 'Illegal type' unless $type ~~ [('JS', 'CSS', 'OTHER')];
     return 0, 'No URI' unless $uri;
     my $collateralType = $type eq 'JS'  ? 'jsFiles'
                        : $type eq 'CSS' ? 'cssFiles'
@@ -412,7 +411,7 @@ types of files.
 
 sub deleteFiles {
     my ($self, $type) = @_;
-    return 0, 'Illegal type' unless WebGUI::Utility::isIn($type, 'JS', 'CSS', 'OTHER');
+    return 0, 'Illegal type' unless $type ~~ [('JS', 'CSS', 'OTHER')];
     my $collateralType = $type eq 'JS'  ? 'jsFiles'
                        : $type eq 'CSS' ? 'cssFiles'
                        : 'otherFiles';
@@ -440,7 +439,7 @@ The unique collateral GUID to delete from the bundle.
 
 sub deleteFile {
     my ($self, $type, $fileId) = @_;
-    return 0, 'Illegal type' unless WebGUI::Utility::isIn($type, 'JS', 'CSS', 'OTHER');
+    return 0, 'Illegal type' unless $type ~~ [('JS', 'CSS', 'OTHER')];
     return 0, 'No fileId' unless $fileId;
     my $collateralType = $type eq 'JS'  ? 'jsFiles'
                        : $type eq 'CSS' ? 'cssFiles'
@@ -714,7 +713,7 @@ The unique collateral GUID to move in the bundle.
 
 sub moveFileDown {
     my ($self, $type, $fileId) = @_;
-    return 0, 'Illegal type' unless WebGUI::Utility::isIn($type, 'JS', 'CSS', 'OTHER');
+    return 0, 'Illegal type' unless $type ~~ [('JS', 'CSS', 'OTHER')];
     return 0, 'No fileId' unless $fileId;
     my $collateralType = $type eq 'JS'  ? 'jsFiles'
                        : $type eq 'CSS' ? 'cssFiles'
@@ -748,7 +747,7 @@ The unique collateral GUID to move in the bundle.
 
 sub moveFileUp {
     my ($self, $type, $fileId) = @_;
-    return 0, 'Illegal type' unless WebGUI::Utility::isIn($type, 'JS', 'CSS', 'OTHER');
+    return 0, 'Illegal type' unless $type ~~ [('JS', 'CSS', 'OTHER')];
     return 0, 'No fileId' unless $fileId;
     my $collateralType = $type eq 'JS'  ? 'jsFiles'
                        : $type eq 'CSS' ? 'cssFiles'

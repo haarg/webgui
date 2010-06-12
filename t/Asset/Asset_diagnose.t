@@ -17,15 +17,14 @@ use lib "$FindBin::Bin/../lib";
 
 use WebGUI::Test;
 use WebGUI::Session;
-use WebGUI::Utility;
 use Test::More; # increment this value for each test you create
 use Test::Deep;
 
 my $session = WebGUI::Test->session;
 
-my @assets = grep { !isIn($_, qw/WebGUI::Asset::FilePile/) } (
-    keys %{ $session->config->get('assets') }
-);
+my %assets = %{ $session->config->get('assets') };
+delete $assets{'WebGUI::Asset::FilePile'};
+my @assets = keys %assets;
 
 my $numTests = scalar (2*@assets) + 2;
 plan tests => $numTests;

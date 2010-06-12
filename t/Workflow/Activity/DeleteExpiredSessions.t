@@ -14,7 +14,6 @@ use lib "$FindBin::Bin/../../lib";
 
 use WebGUI::Test;
 use WebGUI::Session;
-use WebGUI::Utility;
 use WebGUI::Workflow::Activity::DeleteExpiredSessions;
 
 use Test::More;

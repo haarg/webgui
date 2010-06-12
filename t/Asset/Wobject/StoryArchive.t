@@ -27,7 +27,6 @@ use WebGUI::Test; # Must use this before any other WebGUI modules
 use WebGUI::Test::Maker::Permission;
 use WebGUI::Session;
 use WebGUI::Text;
-use WebGUI::Utility;
 use WebGUI::DateTime;
 use DateTime;
 
@@ -239,7 +238,7 @@ cmp_deeply(
 );
 
 KEY: foreach my $key (keys %{ $templateVars }) {
-    next KEY if isIn($key, qw/canPostStories addStoryUrl date_loop mode/);
+    next KEY if $key ~~ qw/canPostStories addStoryUrl date_loop mode/;
     delete $templateVars->{$key};
 }
 
@@ -297,7 +296,7 @@ $session->user({userId => 3});
 
 $templateVars = $archive->viewTemplateVariables();
 KEY: foreach my $key (keys %{ $templateVars }) {
-    next KEY if isIn($key, qw/canPostStories addStoryUrl date_loop/);
+    next KEY if $key ~~ qw/canPostStories addStoryUrl date_loop/;
     delete $templateVars->{$key};
 }
 

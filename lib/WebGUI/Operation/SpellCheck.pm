@@ -11,7 +11,6 @@ package WebGUI::Operation::SpellCheck;
 #-------------------------------------------------------------------
 
 use strict;
-use WebGUI::Utility;
 use File::Path qw(mkpath);
 # Optional, but if unavailable, spell checking will have no effect.
 my $spellerAvailable;
@@ -57,7 +56,7 @@ sub _getSpeller {
     # Get language
     my $speller = Text::Aspell->new;
     die "Language not available in server side spellcheck"
-        unless (isIn($lang, map {m/^.*?:([^:]*):.*?$/} $speller->list_dictionaries));
+        unless ($lang ~~ ( map { m/^.*?:([^:]*):.*?$/ } $speller->list_dictionaries));
 
     # User homedir
     my $homeDir = $session->config->get('uploadsPath').'/dictionaries/';

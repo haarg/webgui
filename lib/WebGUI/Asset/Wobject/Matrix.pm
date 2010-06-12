@@ -16,10 +16,8 @@ our $VERSION = "2.0.0";
 use Tie::IxHash;
 use JSON;
 use WebGUI::International;
-use WebGUI::Utility;
 use Moose;
 use WebGUI::Definition::Asset;
-use feature ":5.10";
 extends 'WebGUI::Asset::Wobject';
 define assetName => ['assetName', 'Asset_Matrix'];
 define icon      => 'matrix.gif';
@@ -1181,7 +1179,7 @@ sub www_getCompareFormData {
     else {
         foreach my $result (@{$self->getListings}) {
             $result->{assetId}  =~ s/-/_____/g;
-            if(WebGUI::Utility::isIn($result->{assetId},@listingIds)){
+            if($result->{assetId} ~~ @listingIds){
                 $result->{checked} = 'checked';
             }
             push @results, $result;

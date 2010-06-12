@@ -16,7 +16,6 @@ use WebGUI::Form;
 use WebGUI::International;
 use WebGUI::SQL;
 use WebGUI::TabForm;
-use WebGUI::Utility;
 
 use Moose;
 use WebGUI::Definition::Asset;
@@ -391,7 +390,7 @@ sub view {
 	my %rules;
 	$rules{returnObjects} = 1;
 	$rules{endingLineageLength} = $start->getLineageLength+$self->descendantEndPoint;
-	$rules{assetToPedigree} = $current if (isIn("pedigree",@includedRelationships));
+	$rules{assetToPedigree} = $current if "pedigree" ~~ @includedRelationships;
 	$rules{ancestorLimit} = $self->ancestorEndPoint;
 	$rules{orderByClause} = 'rpad(asset.lineage, 255, 9) desc' if ($self->reversePageLoop);
 	my @interestingProperties = ('assetId', 'parentId', 'ownerUserId', 'synopsis', 'newWindow');

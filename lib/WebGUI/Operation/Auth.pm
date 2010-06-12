@@ -19,7 +19,6 @@ use WebGUI::Operation::Shared;
 use WebGUI::Pluggable;
 use WebGUI::SQL;
 use WebGUI::User;
-use WebGUI::Utility;
 
 
 #-------------------------------------------------------------------
@@ -35,7 +34,7 @@ sub getInstance {
 	#Get Auth Settings
 	my $authMethod = $session->user->authMethod || $session->setting->get("authMethod");
 	$authMethod = $session->setting->get("authMethod") if($session->user->isVisitor);
-	$authMethod = $_[0] if($_[0] && isIn($_[0], @{$session->config->get("authMethods")}));
+	$authMethod = $_[0] if $_[0] ~~ $session->config->get("authMethods");
 	my $userId = $_[1];
 	#Create Auth Object
     my $auth = eval { WebGUI::Pluggable::instanciate("WebGUI::Auth::".$authMethod, "new", [ $session, $authMethod, $userId ] ) };

@@ -17,7 +17,6 @@ use WebGUI::Form;
 use WebGUI::International;
 use WebGUI::SQL;
 use WebGUI::User;
-use WebGUI::Utility;
 use WebGUI::Asset::Wobject;
 use WebGUI::Image::Graph;
 use WebGUI::Storage;
@@ -497,9 +496,9 @@ sub view {
                 	push(@answers,{
 				"answer.form"=>WebGUI::Form::radio($self->session,{name=>"answer",value=>"a".$i}),
 				"answer.text"=>$self->get('a'.$i),
-				"answer.graphWidth"=>round($self->get("graphWidth")*$tally/$totalResponses),
+				"answer.graphWidth"=> sprintf('%d', $self->get("graphWidth")*$tally/$totalResponses),
 				"answer.number"=>$i,
-				"answer.percent"=>round(100*$tally/$totalResponses),
+				"answer.percent"=>sprintf('%d', 100*$tally/$totalResponses),
 				"answer.total"=>($tally+0)
                         	});
 			push(@dataset, ($tally+0));

@@ -5,7 +5,6 @@ use WebGUI::Image;
 use WebGUI::Image::Palette;
 use WebGUI::Image::Font;
 use List::Util;
-use WebGUI::Utility;
 
 our @ISA = qw(WebGUI::Image);
 
@@ -607,7 +606,7 @@ sub processConfigurationForm {
 	my $namespace = "WebGUI::Image::".$session->form->process('graphingPlugin');
 	$namespace =~ s/_/::/g;
 
-	return undef unless (isIn($namespace, @{$class->getPluginList($session)}));
+	return undef unless ($namespace ~~ $class->getPluginList($session));
 
 my	$graph = $class->load($session, $namespace);
 	

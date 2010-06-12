@@ -25,7 +25,6 @@ use File::Spec;
 use Image::Magick;
 use Path::Class::Dir;
 use Storable ();
-use WebGUI::Utility qw(isIn);
 use WebGUI::Paths;
 use JSON ();
 
@@ -316,7 +315,7 @@ sub addFileFromFilesystem {
         return undef;
     }
     my $filename = (File::Spec->splitpath( $pathToFile ))[2];
-    if (isIn($self->getFileExtension($filename), qw(pl perl sh cgi php asp))) {
+    if ($self->getFileExtension($filename) ~~ [qw(pl perl sh cgi php asp)]) {
         $filename =~ s/\./\_/g;
         $filename .= ".txt";
     }
@@ -383,7 +382,7 @@ sub addFileFromFormPost {
         $clientFilename =~ s/.*[\/\\]//;
         $clientFilename =~ s/^thumb-//;
         my $type = $self->getFileExtension($clientFilename);
-        if (isIn($type, qw(pl perl sh cgi php asp html htm))) { # make us safe from malicious uploads
+        if ($type ~~ [qw(pl perl sh cgi php asp html htm)]) { # make us safe from malicious uploads
             $clientFilename =~ s/\./\_/g;
             $clientFilename .= ".txt";
         }
@@ -451,7 +450,7 @@ The content to write to the file.
 
 sub addFileFromScalar {
 	my ($self, $filename, $content) = @_;
-    if (isIn($self->getFileExtension($filename), qw(pl perl sh cgi php asp html htm))) { # make us safe from malicious uploads
+    if ($self->getFileExtension($filename) ~~ [qw(pl perl sh cgi php asp html htm)]) { # make us safe from malicious uploads
         $filename =~ s/\./\_/g;
         $filename .= ".txt";
     }
@@ -554,7 +553,7 @@ sub copy {
     my $newStorage = shift || WebGUI::Storage->create($self->session);
     my $filelist   = shift || $self->getFiles('all');
     FILE: foreach my $file (@{$filelist}) {
-        next if isIn($file, '.cdn', '.');
+        next if $file ~~ ['.cdn', '.'];
         my $origFile = $self->getPath($file);
         my $copyFile = $newStorage->getPath($file);
         if (-d $origFile) {
@@ -1316,7 +1315,7 @@ The file to check.
 sub isImage {
 	my $self = shift;
 	my $filename = shift;
-	return isIn($self->getFileExtension($filename), qw(jpeg jpg gif png))
+	return $self->getFileExtension($filename) ~~ [qw(jpeg jpg gif png)];
 }
 
 

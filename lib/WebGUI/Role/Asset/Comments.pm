@@ -35,7 +35,6 @@ property averageCommentRating => (
 use WebGUI::Exception;
 use WebGUI::Form;
 use WebGUI::HTML;
-use WebGUI::Utility;
 
 =head1 NAME
 
@@ -193,7 +192,7 @@ Returns the HTML needed to render the average rating icon.
 
 sub getAverageCommentRatingIcon {
 	my $self = shift;
-	return q{<img src="}.$self->session->url->extras('form/CommentRating/'.round($self->get('averageCommentRating'),0).'.png').q{" style="vertical-align: middle;" alt="}.$self->get('averageCommentRating').q{" />};
+	return q{<img src="}.$self->session->url->extras('form/CommentRating/'.sprintf('%d',$self->get('averageCommentRating')).'.png').q{" style="vertical-align: middle;" alt="}.$self->get('averageCommentRating').q{" />};
 	
 }
 

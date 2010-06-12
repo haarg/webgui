@@ -6,9 +6,9 @@ use WebGUI::Form;
 use WebGUI::Exception;
 use WebGUI::International;
 use WebGUI::Pluggable;
-use WebGUI::Utility;
 use Tie::IxHash;
 use base qw/WebGUI::Account/;
+use Email::Valid;
 
 =head1 NAME
 
@@ -901,7 +901,7 @@ sub www_inviteUserSave {
     my $db     = $session->db;
     my @toList = split /[;,]/, $to;
     for my $inviteeEmail (@toList) {
-        unless ( $inviteeEmail =~ WebGUI::Utility::emailRegex ) {
+        unless ( Email::Valid->address($inviteeEmail) ) {
             return $self->www_inviteUser( sprintf $i18n->get('invalid email'), $inviteeEmail );
         }
 
@@ -1169,7 +1169,7 @@ sub www_sendMessage {
                 $activeFriendCount++;
             }
 
-            my $isChecked  = WebGUI::Utility::isIn($friendId,@friendsChecked);            
+            my $isChecked  = $friendId ~~ @friendsChecked;
             my $friendHash = {
                 'friend_id'        => $friendId,
                 'friend_name'      => $friends->{$friendId},

@@ -19,7 +19,6 @@ use WebGUI::DateTime;
 use WebGUI::Group;
 use WebGUI::Session;
 use WebGUI::User;
-use WebGUI::Utility;
 
 $|=1;
 
@@ -174,7 +173,7 @@ while(my $line = <FILE>) {
             if $user{connectDN};
         $auth->saveParams($u->userId,"WebGUI",{changePassword=>$user{changePassword}});
         foreach my $field (keys %user) {
-            if (isIn($field, @profileFields)) {
+            if ($field ~~ @profileFields) {
                 $u->profileField($field,$user{$field});
             }
         }

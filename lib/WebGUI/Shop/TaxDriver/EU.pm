@@ -18,7 +18,6 @@ use strict;
 
 use WebGUI::Content::Account;
 use WebGUI::TabForm;
-use WebGUI::Utility qw{ isIn };
 use WebGUI::International;
 
 use Business::Tax::VAT::Validation;
@@ -980,7 +979,7 @@ sub www_addVATNumber {
     my ($countryCode, $number) = $vatNumber =~ m/^([A-Z]{2})([A-Z0-9]+)$/;    
 
     my $errorMessage;
-    $errorMessage = $i18n->get('illegal country code')      unless isIn( $countryCode, keys %EU_COUNTRIES );
+    $errorMessage = $i18n->get('illegal country code')      unless exists $EU_COUNTRIES{$countryCode};
     $errorMessage = $i18n->get('already has vat number')    if     @{ $self->getVATNumbers( $countryCode ) };
     $errorMessage = $self->addVATNumber( $vatNumber )       unless $errorMessage;
 

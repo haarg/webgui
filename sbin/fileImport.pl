@@ -22,7 +22,6 @@ use WebGUI::Asset::File;
 use WebGUI::Asset::File::Image;
 use WebGUI::Session;
 use WebGUI::Storage;
-use WebGUI::Utility;
 
 $| = 1;
 
@@ -121,7 +120,7 @@ sub addFiles {
 		print "\tAdding ".$file->{fullPathFile}." to the database.\n" unless ($quiet);	
 
 		# Figure out whether the file is an image or not by its extension.
-		if (isIn(lc($file->{ext}),@nailable)) {
+		if ((lc $file->{ext}) ~~ @nailable) {
 			$class = 'WebGUI::Asset::File::Image';
 			$templateId = 'PBtmpl0000000000000088';
 		}

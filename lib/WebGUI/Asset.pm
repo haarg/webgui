@@ -391,7 +391,6 @@ use WebGUI::Keyword;
 require WebGUI::ProgressBar;
 use WebGUI::Search::Index;
 use WebGUI::TabForm;
-use WebGUI::Utility;
 
 =head1 NAME
 
@@ -1063,7 +1062,7 @@ sub getEditForm {
 		}
 
 		# Kludge.
-		if (isIn($fieldHash{fieldType}, 'selectBox', 'workflow') and ref $params{value} ne 'ARRAY') {
+		if ($fieldHash{fieldType} ~~ ['selectBox', 'workflow'] and ref $params{value} ne 'ARRAY') {
 			$params{value} = [$params{value}];
 		}
 
@@ -2580,7 +2579,7 @@ sub www_add {
 		my $prototype = WebGUI::Asset->newById($self->session, $self->session->form->process("prototype"));
 		foreach my $property ($prototype->getProperties) { # cycle through rather than copying properties to avoid grabbing stuff we shouldn't grab
             my $definition = $prototype->getProperty($property);
-			next if (isIn($property,qw(title menuTitle url isPrototype isPackage)));
+			next if ($property ~~ [qw(title menuTitle url isPrototype isPackage)]);
 			next if ($definition->{noFormPost});
 			$prototypeProperties{$property} = $prototype->get($property);
 		}

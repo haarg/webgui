@@ -459,7 +459,6 @@ use WebGUI::Group;
 use WebGUI::HTML;
 use WebGUI::International;
 use WebGUI::Paginator;
-use WebGUI::Utility;
 use WebGUI::Asset::Wobject;
 use WebGUI::Workflow::Cron;
 
@@ -1162,7 +1161,7 @@ sub getThreadsPaginator {
     $sortBy =~ s/^\w+\.//;
     # Sort by the thread rating instead of the post rating.  other places don't care about threads.
     $sortBy = $sortBy eq 'rating' ? 'threadRating' : $sortBy;
-    if (! WebGUI::Utility::isIn($sortBy, qw/userDefined1 userDefined2 userDefined3 userDefined4 userDefined5 title lineage revisionDate creationDate karmaRank threadRating/)) {
+    if (! $sortBy ~~ [qw(userDefined1 userDefined2 userDefined3 userDefined4 userDefined5 title lineage revisionDate creationDate karmaRank threadRating)]) {
         $sortBy = 'revisionDate';
     }
     if ($sortBy eq 'assetId' || $sortBy eq 'revisionDate') {
@@ -1477,7 +1476,7 @@ sub recalculateRating {
             [$self->getId]
         );
 
-    my $average = round($sum/$count);
+    my $average = sprintf '%d', $sum/$count;
     $self->update({rating=>$average});
 }
 

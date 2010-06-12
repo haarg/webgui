@@ -21,7 +21,6 @@ use WebGUI::HTML;
 use WebGUI::Inbox;
 use WebGUI::International;
 use WebGUI::User;
-use WebGUI::Utility;
 
 readonly session    => my %session;
 readonly user       => my %user;
@@ -225,7 +224,7 @@ The userId to check against this user.
 sub isFriend {
     my $self = shift;
     my $userId = shift;
-    return isIn($userId, @{$self->user->friends->getUsers});    
+    return $userId ~~ $self->user->friends->getUsers;
 }
 
 #-------------------------------------------------------------------

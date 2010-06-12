@@ -14,7 +14,6 @@ use strict;
 use Tie::IxHash;
 use JSON;
 use WebGUI::International;
-use WebGUI::Utility;
 use WebGUI::Text;
 use WebGUI::Form::File;
 use WebGUI::DateTime;
@@ -696,24 +695,28 @@ sub getEditFieldForm {
     my $self = shift;
     my $session = $self->session;
     my $field = shift;
-    my (%fieldStatus, $f, %fieldTypes, $things);
     my $fieldId = $field->{fieldId} || "new";
     my $i18n = WebGUI::International->new($session, 'Asset_Thingy');
     my $defaultValue;
-    tie %fieldStatus, 'Tie::IxHash';
-    tie %fieldTypes, 'Tie::IxHash';
+
     
+    tie my %fieldStatus, 'Tie::IxHash';
     %fieldStatus = (
         "hidden" => $i18n->get('fieldstatus hidden label'),
         "visible" => $i18n->get('fieldstatus visible label'),
         "editable" => $i18n->get('fieldstatus editable label'),
         "required" => $i18n->get('fieldstatus required label'),
     );
+
+    my $types = WebGUI::Form::FieldType->new($session)->getTypes;
+    tie my %fieldTypes, 'Tie::IxHash';
+    %fieldTypes =
+        map { @$_ }
+        sort { $a->[1] cmp $b->[1] }
+        map { [ $_, $types->{$_} ] }
+        keys %$types;
     
-    %fieldTypes = %{WebGUI::Form::FieldType->new($session)->getTypes}; 
-    %fieldTypes = WebGUI::Utility::sortHash(%fieldTypes);
-    
-    $things = $self->session->db->read('select thingId, Thingy_things.label, count(*) from Thingy_things '
+    my $things = $self->session->db->read('select thingId, Thingy_things.label, count(*) from Thingy_things '
         .'left join Thingy_fields using(thingId) where Thingy_things.assetId = ? and fieldId != "" '
         .'group by thingId',[$self->getId]);
     while (my $thing = $things->hashRef) {
@@ -732,7 +735,7 @@ sub getEditFieldForm {
         $dialogPrefix = "edit_".$fieldId."_Dialog";
     }
     
-    $f = WebGUI::HTMLForm->new($self->session,{
+    my $f = WebGUI::HTMLForm->new($self->session,{
             action=>$self->getUrl,
             tableExtras=>' cellpadding="0" cellspacing="0"'
             });
@@ -975,7 +978,7 @@ sub getFormPlugin {
         }
     }
 
-    if ( WebGUI::Utility::isIn( $data->{fieldType}, qw(SelectList CheckList SelectBox Attachments) ) ) {
+    if ( $data->{fieldType} ~~ [qw(SelectList CheckList SelectBox Attachments)] ) {
         my @values;
         if ( $useFormPostData && $session->form->param($name) ) {
             $param{ value } = [ $session->form->process( $name, $data->{fieldType} ) ];
@@ -1297,7 +1300,7 @@ sub importAssetCollateralData {
     # delete deleted things
     my $thingsInDatabase = $self->getThings;
     while (my $thingInDataBase = $thingsInDatabase->hashRef) {
-        if (!WebGUI::Utility::isIn($thingInDataBase->{thingId},@importThings)){
+        if (!$thingInDataBase->{thingId} ~~ @importThings){
         # delete thing
             $self->deleteThing($thingInDataBase->{thingId});
         }
@@ -1324,7 +1327,7 @@ sub importAssetCollateralData {
     my $fieldsInDatabase = $session->db->read('select fieldId, thingId from Thingy_fields where assetId = ?',
         [$self->getId]);
     while (my $fieldInDataBase = $fieldsInDatabase->hashRef) {
-        if (!WebGUI::Utility::isIn($fieldInDataBase->{fieldId},@importFields)){
+        if (! $fieldInDataBase->{fieldId} ~~ @importFields){
             # delete field
             $self->deleteField($fieldInDataBase->{fieldId},$fieldInDataBase->{thingId},"1");        
         }

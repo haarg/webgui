@@ -13,9 +13,9 @@ package WebGUI::Operation::Spectre;
 use strict;
 use JSON;
 use POE::Component::IKC::ClientLite;
-use WebGUI::Utility;
 use WebGUI::Workflow::Cron;
 use WebGUI::Workflow::Instance;
+use Net::CIDR::Lite;
 
 =head1 NAME
 
@@ -59,8 +59,8 @@ sub www_spectreGetSiteData {
     if (!defined $subnets) {
         $subnets = [];
     }
-	if (!isInSubnet($session->env->getIp, $subnets)) {
-		$session->errorHandler->security("Tried to make a Spectre workflow data load request, but we're only allowed to accept requests from "
+	if (!Net::CIDR::Lite->new(@$subnets)->find($session->env->getIp)) {
+		$session->log->security("Tried to make a Spectre workflow data load request, but we're only allowed to accept requests from "
 			.join(",",@{$subnets}).".");
 	} 
   	else {
@@ -182,8 +182,8 @@ sub www_spectreTest {
     }
 
     my $sessionIp = $session->env->getIp;
-	unless (isInSubnet($sessionIp, $subnets)) {
-		$session->errorHandler->security(
+	unless (Net::CIDR::Lite->new(@$subnets)->find($sessionIp)) {
+		$session->log->security(
             sprintf "Tried to make a Spectre workflow runner request from %s, but we're only allowed to accept requests from %s",
                 $sessionIp, join(",",@{$subnets})
         );

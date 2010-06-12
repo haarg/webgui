@@ -14,7 +14,6 @@ use lib "$FindBin::Bin/lib";
 
 use WebGUI::Test;
 use WebGUI::Session;
-use WebGUI::Utility;
 
 use WebGUI::User;
 use WebGUI::Group;
@@ -448,10 +447,10 @@ cmp_bag(
 is( $mob[0]->isInGroup($gY->getId), 1, 'mob[0] is in group Y after setting dbQuery');
 is( $mob[0]->isInGroup($gZ->getId), 1, 'mob[0] isInGroup Z');
 
-ok( isIn($mob[0]->userId, @{ $gY->getAllUsers() }), 'mob[0] in list of group Y users');
-ok( !isIn($mob[0]->userId, @{ $gZ->getUsers() }), 'mob[0] not in list of group Z users');
+ok( $mob[0]->userId ~~ $gY->getAllUsers, 'mob[0] in list of group Y users');
+ok( $mob[0]->userId ~~ $gZ->getUsers, 'mob[0] not in list of group Z users');
 
-ok( isIn($mob[0]->userId, @{ $gZ->getAllUsers() }), 'mob[0] in list of group Z users, recursively');
+ok( $mob[0]->userId ~~ $gZ->getAllUsers, 'mob[0] in list of group Z users, recursively');
 
 ##Karma tests
 
