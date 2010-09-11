@@ -133,6 +133,14 @@ sub extras {
     my $self   = shift;
     my $path   = shift;
     my $url    = $self->make_urlmap_work($self->session->config->get("extrasURL"));
+    if ($path =~ s{/?yui/}{}) {
+        my $yuiRoot = $self->session->config->get("yuiURL");
+        $yuiRoot =~ s/{{version}}/2.8.1/;
+        $yuiRoot =~ s/{{extras}}/$url/;
+        my $url = URI->new_abs( $yuiRoot . '/' . $path, $self->session->request->base );
+        return $url->canonical->as_string;
+    }
+    my $url    = $self->make_urlmap_work($self->session->config->get("extrasURL"));
     my $cdnCfg = $self->session->config->get('cdn');
     if ( $cdnCfg and $cdnCfg->{'enabled'} and $cdnCfg->{'extrasCdn'} ) {
         unless ( $path and grep $path =~ m/$_/, @{ $cdnCfg->{'extrasExclude'} } ) {

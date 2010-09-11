@@ -1079,6 +1079,9 @@
 # An array of SPAM words.  Used in the Post and WikiPage to block spam by sending the asset directly
 # to the trash.
    "spamStopWords" : [
-   ]
+   ],
+
+# Root of YUI files
+   "yuiRoot" : "//ajax.googleapis.com/ajax/libs/yui/{{version}}/"
 
 }
