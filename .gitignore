@@ -1,1 +1,10 @@
 /*.kpf
+/Build
+/MYMETA.json
+/MYMETA.yml
+/META.json
+/META.yml
+/MANIFEST
+/_build
+/blib
+

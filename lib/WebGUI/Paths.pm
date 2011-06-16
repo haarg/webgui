@@ -91,11 +91,12 @@ BEGIN {
         catpath((splitpath(__FILE__))[0,1], ''), (updir) x 2
     ));
     my $share = catdir($root, 'share');
+    my $etc = catdir($root, 'etc');
     my %paths = (
-        configBase         => catdir($root, 'etc'),
-        logConfig          => catfile($root, 'etc', 'log.conf'),
-        spectreConfig      => catfile($root, 'etc', 'spectre.conf'),
-        preloadExclusions  => catfile($root, 'etc', 'preload.exclude'),
+        configBase         => $etc,
+        logConfig          => catfile($etc, 'log.conf'),
+        spectreConfig      => catfile($etc, 'spectre.conf'),
+        preloadExclusions  => catfile($etc, 'preload.exclude'),
         upgrades           => catdir($share, 'upgrades'),
         extras             => catdir($share, 'extras'),
         defaultUploads     => catdir($share, 'uploads'),

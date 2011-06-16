@@ -1,8 +1,83 @@
 use strict;
 use warnings;
 use Module::Build;
-my $build = Module::Build->new(
+my $class = Module::Build->subclass(code => <<'END_CLASS');
+sub copy_if_modified {
+    my $self = shift;
+    my %args = (@_ > 3
+            ? ( @_ )
+            : ( from => shift, to_dir => shift, flatten => shift )
+            );
+    $args{verbose} = !$self->quiet
+        unless exists $args{verbose};
+
+    my $file = $args{from};
+    unless (defined $file and length $file) {
+        die "No 'from' parameter given to copy_if_modified";
+    }
+
+    # makes no sense to replicate an absolute path, so assume flatten
+    $args{flatten} = 1 if File::Spec->file_name_is_absolute( $file );
+
+    my $to_path;
+    if (defined $args{to} and length $args{to}) {
+        $to_path = $args{to};
+    } elsif (defined $args{to_dir} and length $args{to_dir}) {
+        $to_path = File::Spec->catfile( $args{to_dir}, $args{flatten}
+                        ? File::Basename::basename($file)
+                        : $file );
+    } else {
+        die "No 'to' or 'to_dir' parameter given to copy_if_modified";
+    }
+
+    return if $self->up_to_date($file, $to_path); # Already fresh
+
+    {
+        local $self->{properties}{quiet} = 1;
+        $self->delete_filetree($to_path); # delete destination if exists
+    }
+
+    # Create parent directories
+    File::Path::mkpath(File::Basename::dirname($to_path), 0, oct(777));
+
+    $self->log_verbose("Copying $file -> $to_path\n");
+
+    if ($^O eq 'os2') {# copy will not overwrite; 0x1 = overwrite
+        chmod 0666, $to_path;
+        File::Copy::syscopy($file, $to_path, 0x1) or die "Can't copy('$file', '$to_path'): $!";
+    } else {
+        File::Copy::copy($file, $to_path) or die "Can't copy('$file', '$to_path'): $!";
+    }
+    if ($file eq 'lib/WebGUI/Paths.pm') {
+        $self->_mod_paths($to_path);
+    }
+
+    # mode is read-only + (executable if source is executable)
+    my $mode = oct(444) | ( $self->is_executable($file) ? oct(111) : 0 );
+    chmod( $mode, $to_path );
+
+    return $to_path;
+}
+
+sub _mod_paths {
+    my $self = shift;
+    my $file = shift;
+    open my $fh, '<', $file;
+    my $content = do { local $/; <$fh> };
+    close $fh;
+    my $etc = $self->notes('etc_dir');
+    $content =~ s/my \$root = .*?;/use File::ShareDir ':ALL';/ms;
+    $content =~ s/(my \$share =).*?;/$1 dist_dir('WebGUI');/;
+    $content =~ s/(my \$etc =).*?;/$1 '$etc';/;
+    open $fh, '>', $file;
+    print {$fh} $content;
+    close $fh;
+}
+
+END_CLASS
+my $build = $class->new(
     module_name => 'WebGUI',
+    dist_abstract => 'WebGUI CMS',
     license  => 'gpl2',
     share_dir => 'share',
     requires => {
@@ -131,4 +206,6 @@ my $build = Module::Build->new(
         'Text::Aspell'                     => 0.01,
     },
 );
+$build->notes('etc_dir' => "/etc/webgui");
 $build->create_build_script;
+
