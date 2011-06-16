@@ -104,20 +104,22 @@ sub addRevision {
 
     $session->db->commit;
 
-	# current values, and the user set properties
-	my %mergedProperties = (%{$self->get}, %{$properties}, );
+    # copy
+    my %properties = %$properties;
 
     # Set some defaults
-    $mergedProperties{ revisedBy } = $properties->{ revisedBy } || $session->user->userId;
-
-    # Force the packed head block to be regenerated
-    delete $mergedProperties{extraHeadTagsPacked};
+    $properties{ revisedBy } ||= $session->user->userId;
 
     #Instantiate new revision and fill with real data
-    my $newVersion = WebGUI::Asset->newById($session, $self->getId, $now);
+    my $class = ref $self;
+    my $newVersion = $class->new({
+        %{ $self->get },
+        session => $session,
+        revisionDate => $now,
+    });
     $newVersion->setSkipNotification if ($options->{skipNotification});
     $newVersion->updateHistory("created revision");
-    $newVersion->update(\%mergedProperties);
+    $newVersion->update(\%properties);
 
     return $newVersion;
 }

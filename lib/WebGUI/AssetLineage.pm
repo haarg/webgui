@@ -95,11 +95,17 @@ sub addChild {
 	$session->db->write("insert into asset (assetId, parentId, lineage, creationDate, createdBy, className, state) values (?,?,?,?,?,?,'published')",
 		[$id, $self->getId, $lineage, $now, $session->user->userId, $properties->{className}]);
 	$session->db->commit;
-	$properties->{assetId}  = $id;
-	$properties->{parentId} = $self->getId;
-    $properties->{state}    = 'published';
-	my $temp = WebGUI::Asset->newByPropertyHashRef($session, $properties) || croak "Couldn't create a new $properties->{className} asset!";
-	my $newAsset = $temp->addRevision($properties, $now, $options); 
+    my $asset_properties = {
+        assetId => $id,
+        parentId => $self->getId,
+        lineage => $lineage,
+        creationDate => $now,
+        createdBy => $session->user->userId,
+        className => $properties->{className},
+        state => 'published',
+    };
+    my $temp = WebGUI::Asset->newByPropertyHashRef($session, {%$properties, %$asset_properties}) || croak "Couldn't create a new $properties->{className} asset!";
+	my $newAsset = $temp->addRevision($properties, $now, $options);
 	$self->updateHistory("added child ".$id);
 	$session->response->status(201);
 	return $newAsset;
