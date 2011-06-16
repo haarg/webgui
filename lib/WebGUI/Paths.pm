@@ -96,18 +96,19 @@ BEGIN {
     my $root = realpath(catdir(
         catpath((splitpath(__FILE__))[0,1], ''), (updir) x 2
     ));
+    my $share = catdir($root, 'share');
     my %paths = (
         configBase         => catdir($root, 'etc'),
         logConfig          => catfile($root, 'etc', 'log.conf'),
         spectreConfig      => catfile($root, 'etc', 'spectre.conf'),
         preloadCustom      => catfile($root, 'etc', 'preload.custom'),
         preloadExclusions  => catfile($root, 'etc', 'preload.exclude'),
-        upgrades           => catdir($root, 'share', 'upgrades'),
+        upgrades           => catdir($share, 'upgrades'),
         extras             => catdir($root, 'www', 'extras'),
         defaultUploads     => catdir($root, 'www', 'uploads'),
-        defaultCreateSQL   => catdir($root, 'share', 'create.sql'),
-        share              => catdir($root, 'share'),
-        defaultPSGI        => catdir($root, 'share', 'site.psgi'),
+        defaultCreateSQL   => catdir($share, 'create.sql'),
+        share              => $share,
+        defaultPSGI        => catdir($share, 'site.psgi'),
     );
     my $meta = Class::MOP::Class->initialize(__PACKAGE__);
     for my $sub (keys %paths) {
