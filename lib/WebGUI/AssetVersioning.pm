@@ -94,17 +94,13 @@ sub addRevision {
     my $db    = $self->session->db;
     my $id    = $self->getId;
     my $then  = $self->get('revisionDate');
-    my $mdget = q{
-        select fieldId, value from metaData_values
-        where assetId = ? and revisionDate = ?
+    my $mdcopy = q{
+        INSERT INTO metaData_values (fieldId, value, assetId, revisionDate)
+        SELECT fieldId, value, ?, ?
+        FROM metaData_values
+        WHERE assetId = ? AND revisionDate = ?
     };
-    my $mdset = q{
-        insert into metaData_values (fieldId, value, assetId, revisionDate)
-        values (?, ?, ?, ?)
-    };
-    for my $row (@{ $db->buildArrayRefOfHashRefs($mdget, [ $id, $then ]) }) {
-        $db->write($mdset, [ $row->{fieldId}, $row->{value}, $id, $now ]);
-    }
+    $db->write($mdcopy, [ $id, $now, $id, $then ]);
 
     $session->db->commit;
 
