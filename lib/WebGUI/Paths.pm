@@ -104,7 +104,7 @@ BEGIN {
         preloadCustom      => catfile($root, 'etc', 'preload.custom'),
         preloadExclusions  => catfile($root, 'etc', 'preload.exclude'),
         upgrades           => catdir($share, 'upgrades'),
-        extras             => catdir($root, 'www', 'extras'),
+        extras             => catdir($share, 'extras'),
         defaultUploads     => catdir($share, 'uploads'),
         defaultCreateSQL   => catdir($share, 'create.sql'),
         share              => $share,
