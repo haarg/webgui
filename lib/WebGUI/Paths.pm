@@ -105,7 +105,7 @@ BEGIN {
         preloadExclusions  => catfile($root, 'etc', 'preload.exclude'),
         upgrades           => catdir($share, 'upgrades'),
         extras             => catdir($root, 'www', 'extras'),
-        defaultUploads     => catdir($root, 'www', 'uploads'),
+        defaultUploads     => catdir($share, 'uploads'),
         defaultCreateSQL   => catdir($share, 'create.sql'),
         share              => $share,
         defaultPSGI        => catdir($share, 'site.psgi'),
