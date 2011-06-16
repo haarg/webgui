@@ -17,7 +17,7 @@ use Getopt::Long;
 use File::Spec;
 use POE::Component::IKC::ClientLite;
 use Spectre::Admin;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use Config::JSON;
 use JSON;
 

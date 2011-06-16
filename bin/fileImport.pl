@@ -17,7 +17,7 @@ use FileHandle;
 use Getopt::Long;
 use POSIX;
 use Pod::Usage;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Asset::File;
 use WebGUI::Asset::File::Image;
 use WebGUI::Session;

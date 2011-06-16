@@ -34,12 +34,6 @@ Locations for WebGUI files
 
 =head1 IMPORT OPTIONS
 
-=head2 -inc
-
-    use WebGUI::Paths -inc;
-
-Loads all of the entries from the preload.custom file into @INC
-
 =head2 -preload
 
 Loads all of the entries from the preload.custom file into @INC,
@@ -101,7 +95,6 @@ BEGIN {
         configBase         => catdir($root, 'etc'),
         logConfig          => catfile($root, 'etc', 'log.conf'),
         spectreConfig      => catfile($root, 'etc', 'spectre.conf'),
-        preloadCustom      => catfile($root, 'etc', 'preload.custom'),
         preloadExclusions  => catfile($root, 'etc', 'preload.exclude'),
         upgrades           => catdir($share, 'upgrades'),
         extras             => catdir($share, 'extras'),
@@ -121,10 +114,7 @@ sub import {
     my $class = shift;
     my @invalid;
     for my $param (@_) {
-        if ($param eq '-inc') {
-            $class->includePreloads;
-        }
-        elsif ($param eq '-preload') {
+        if ($param eq '-preload') {
             $class->preloadAll;
         }
         else {
@@ -161,40 +151,6 @@ sub siteConfigs {
     return @configs;
 } ## end sub siteConfigs
 
-=head2 preloadPaths
-
-Returns the list of paths in the preload.custom file as an array.
-
-=cut
-
-sub preloadPaths {
-    my $class = shift;
-    my @paths;
-    try {
-        for my $path ( _readTextLines($class->preloadCustom) ) {
-            if (-d $path) {
-                push @paths, $path;
-            }
-            else {
-                warn "WARNING: Not adding lib directory '$path' from "
-                    . $class->preloadCustom . ": Directory does not exist.\n";
-            }
-        }
-    };
-    return @paths;
-}
-
-=head2 includePreloads
-
-Adds the paths from preload.custom to @INC.
-
-=cut
-
-sub includePreloads {
-    my $class = shift;
-    unshift @INC, $class->preloadPaths;
-}
-
 =head2 preloadExclude
 
 Returns the list of modules to exclude from preloading as an array.
@@ -217,7 +173,6 @@ Preloads all of the modules in the WebGUI namespace into memory.
 
 sub preloadAll {
     my $class = shift;
-    $class->includePreloads;
 
     require WebGUI::Pluggable;
 

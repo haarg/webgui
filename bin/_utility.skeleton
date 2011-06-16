@@ -13,7 +13,7 @@
 use strict;
 use Pod::Usage;
 use Getopt::Long;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Session;
 
 $|++; # disable output buffering

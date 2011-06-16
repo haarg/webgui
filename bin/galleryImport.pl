@@ -26,7 +26,7 @@ use File::Find;
 use Getopt::Long;
 use Pod::Usage;
 use Scalar::Util qw( blessed );
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Asset::Wobject::Collaboration;
 use WebGUI::Asset::Wobject::GalleryAlbum;
 use WebGUI::Asset::Wobject::Gallery;

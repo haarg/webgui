@@ -11,7 +11,7 @@
 #-------------------------------------------------------------------
 
 use strict;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use Getopt::Long;
 use Pod::Usage;
 use WebGUI::Session;

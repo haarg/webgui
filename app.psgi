@@ -1,6 +1,6 @@
 use strict;
 use Plack::Builder;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Config;
 use WebGUI::Fork;
 

@@ -14,7 +14,7 @@ use strict;
 use Digest::MD5;
 use Getopt::Long;
 use Pod::Usage;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::DateTime;
 use WebGUI::Group;
 use WebGUI::Session;

@@ -14,7 +14,7 @@ use strict;
 use Getopt::Long;
 use Pod::Usage;
 use File::Find ();
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Config;
 
 local $| = 1; #disable output buffering

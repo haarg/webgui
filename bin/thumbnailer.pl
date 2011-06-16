@@ -23,7 +23,7 @@ use Pod::Usage;
 use Image::Magick;
 
 
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 
 my $thumbnailSize;
 my $onlyMissingThumbnails;

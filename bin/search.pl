@@ -13,7 +13,7 @@
 use strict;
 
 use Getopt::Long;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Asset;
 use WebGUI::Config;
 use WebGUI::Session;

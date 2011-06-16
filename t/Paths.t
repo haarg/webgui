@@ -9,7 +9,6 @@ my @pathMethods = qw(
     configBase
     logConfig
     spectreConfig
-    preloadCustom
     preloadExclusions
     upgrades
     extras

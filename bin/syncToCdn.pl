@@ -13,7 +13,7 @@
 use strict;
 use Fcntl ':flock';
 use Getopt::Long;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Session;
 use WebGUI::Storage;
 use Pod::Usage;

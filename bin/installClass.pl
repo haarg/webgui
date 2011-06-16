@@ -23,7 +23,7 @@ BEGIN {
 
 use Getopt::Long;
 use Pod::Usage;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Pluggable;
 use WebGUI::Session;
 use WebGUI::Paths;

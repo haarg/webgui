@@ -13,7 +13,7 @@
 use strict;
 use Getopt::Long;
 use Pod::Usage;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use WebGUI::Session;
 use WebGUI::Asset;
 

@@ -42,7 +42,7 @@ use File::Temp ();
 use Try::Tiny;
 use Monkey::Patch       qw( patch_object );
 use Scope::Guard;
-use WebGUI::Paths -inc;
+use WebGUI::Paths;
 use namespace::clean;
 use WebGUI::User;
 use WebGUI::Test::Mechanize;
