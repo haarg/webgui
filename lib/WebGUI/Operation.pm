@@ -222,9 +222,6 @@ sub getOperations {
 		'rollbackVersionTag' => 'VersionTag',
 		'setWorkingVersionTag' => 'VersionTag',
 
-		'genesis' => 'WebGUI',
-		'theWg' => 'WebGUI',
-
 		'addWorkflow' => 'Workflow',
 		'addWorkflowSave' => 'Workflow',
 		'deleteWorkflow' => 'Workflow',
