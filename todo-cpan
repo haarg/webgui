@@ -1,0 +1,19 @@
+ - currently using Module::Build
+    - with really ugly c&p
+ - switch to Dist::Zilla if possible
+ - build step should only need to rewrite WebGUI::Paths
+ - should run without needing build
+ - dist tarball doesn't need to though
+
+ - need prompt / option for etc dir
+    - created during install
+    - spectre and log configs created during install
+ - add site creation command
+    - db admin or existing db
+    - uploads path
+    - config name
+ - tests
+    - need temp database
+    - can't use real etc, need temp or workaround
+ - still want to slim down extras
+ - move all commands to modules
