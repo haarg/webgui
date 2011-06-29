@@ -7,9 +7,10 @@ use feature ();
 use Sub::Exporter;
 use Sub::Name;
 use WebGUI::Upgrade ();
-use Scope::Guard;
 use Scalar::Util qw(weaken);
 use Try::Tiny;
+use B::Hooks::Parser;
+use Guard;
 
 use Sub::Exporter -setup => {
     groups => {
@@ -41,6 +42,8 @@ use Sub::Exporter -setup => {
             strict->import;
             warnings->import;
             warnings->unimport('uninitialized');
+            B::Hooks::Parser::inject('; Guard::scope_guard { _cleanup(); };');
+            1;
         }
     }
 };
@@ -106,44 +109,33 @@ sub _build_exports {
         return $collateral;
     };
 
-    my $cleanup = sub {
-        state $has_run = 0;
-        return
-            if $has_run++;
-        if ($session) {
-            require WebGUI::VersionTag;
-            if (WebGUI::VersionTag->getWorking($session, 'nocreate')) {
-                $version_tag_sub->()->commit;
-            }
-            $session->end;
-            $session->close;
-        }
-        undef $session;
-        undef $versionTag;
-    };
-    my $cleanup_guard = Scope::Guard->new( $cleanup );
-
     # we keep a weakened copy around.  this prevents us from keeping a
     # copy if the guard gets freed, but otherwise allows us to call it
     # manually in END.
-    push @cleanups, $cleanup;
-    weaken $cleanups[-1];
-
     my $indent = 1;
     my $just_started;
 
     my $subs = {
-        # this closes over the guard, keeping it alive until the sub is either
-        # run or deleted.  WebGUI::Upgrade::File::pl will end up deleting
-        # the sub when it cleans up the temporary namespace it uses.
-        _cleanup => sub {
-            undef $cleanup_guard;
-        },
         config      => $config_sub,
         session     => $session_sub,
         version_tag => $version_tag_sub,
         dbh         => $dbh_sub,
         collateral  => $collateral_sub,
+        _cleanup    => sub () {
+            state $has_run = 0;
+            return
+                if $has_run++;
+            if ($session) {
+                require WebGUI::VersionTag;
+                if (WebGUI::VersionTag->getWorking($session, 'nocreate')) {
+                    $version_tag_sub->()->commit;
+                }
+                $session->end;
+                $session->close;
+            }
+            undef $session;
+            undef $versionTag;
+        },
         start_step  => sub (@) {
             print "\n"
                 if $just_started;
@@ -223,15 +215,6 @@ sub _build_exports {
         subname join('::', __PACKAGE__, $sub_package, $sub_name) => $subs->{$sub_name};
     }
     return $subs;
-}
-
-END {
-    for my $cleanup (@cleanups) {
-        # could be a weakened ref that went away
-        next
-            unless $cleanup;
-        $cleanup->();
-    }
 }
 
 1;
