@@ -20,7 +20,7 @@ package WebGUI::Upgrade::File::pl;
 use Moose;
 use Class::MOP::Class;
 use File::Spec::Functions qw(devnull);
-use Scope::Guard;
+use Guard;
 use namespace::autoclean -also => qr/^_/;
 
 with 'WebGUI::Upgrade::File';
@@ -35,10 +35,10 @@ sub run {
     if ($self->quiet) {
         open my $stdout_old, '>&=', \*STDOUT;
         open \*STDOUT, '>', devnull;
-        $io_guard = Scope::Guard->new(sub {
+        $io_guard = guard {
             close STDOUT;
             open STDOUT, '>&=', $stdout_old;
-        });
+        };
     }
     return _runScript($self->file);
 }

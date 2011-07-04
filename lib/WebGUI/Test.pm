@@ -41,7 +41,7 @@ use File::Copy ();
 use File::Temp ();
 use Try::Tiny;
 use Monkey::Patch       qw( patch_object );
-use Scope::Guard;
+use Guard;
 use WebGUI::Paths -inc;
 use namespace::clean;
 use WebGUI::User;
@@ -895,7 +895,7 @@ Example call:
                 || croak "Can't find destructor for $class";
             push @cleanups, $construct, $destroy;
         }
-        return Scope::Guard->new(sub {
+        return guard {
             local $@;
             while ( 1 ) {
                 my ($construct, $destroy) = (shift @cleanups, shift @cleanups);
@@ -912,7 +912,7 @@ Example call:
                 }
             }
             return;
-        });
+        };
     }
 }
 
@@ -948,7 +948,7 @@ sub addToCleanup {
 
 sub cleanup {
     if ($ENV{WEBGUI_TEST_NOCLEANUP}) {
-        (pop @guarded)->dismiss
+        (pop @guarded)->cancel
             while @guarded;
         return;
     }

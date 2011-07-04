@@ -17,10 +17,11 @@ package WebGUI::Definition;
 use 5.010;
 use feature ();
 
-use Moose ();
 use Moose::Exporter;
 use Moose::Util;
 use Moose::Util::MetaRole;
+use Hook::AfterRuntime;
+use true;
 
 use namespace::autoclean;
 no warnings qw(uninitialized);
@@ -64,9 +65,16 @@ generate warnings.
 sub import {
     my $class = shift;
     my $caller = caller;
+    strict->import;
+    warnings->import;
+    feature->import(':5.10');
+    true->import;
+
     $class->$import({ into_level => 1 });
     warnings->unimport('uninitialized');
-    feature->import(':5.10');
+    if ($caller->meta->isa('Moose::Meta::Class')) {
+        after_runtime { $caller->meta->make_immutable };
+    }
     namespace::autoclean->import( -cleanee => $caller );
     return 1;
 }

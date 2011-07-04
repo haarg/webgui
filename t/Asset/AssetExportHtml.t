@@ -28,7 +28,6 @@ use File::Path;
 use File::Temp qw/tempfile tempdir/;
 use Path::Class;
 use Test::Deep;
-use Scope::Guard qw(guard);
 
 #----------------------------------------------------------------------------
 # Init

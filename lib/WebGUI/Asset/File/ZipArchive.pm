@@ -44,7 +44,7 @@ use WebGUI::SQL;
 use Archive::Tar;
 use Archive::Zip;
 use Cwd ();
-use Scope::Guard ();
+use Guard;
 
 
 =head1 NAME
@@ -91,7 +91,7 @@ sub unzip {
 	my $filepath = $storage->getPath();
     my $cwd = Cwd::cwd();
     chdir $filepath;
-    my $dir_guard = Scope::Guard->new(sub { chdir $cwd });
+    scope_guard { chdir $cwd };
    
 	my $i18n = WebGUI::International->new($self->session,"Asset_ZipArchive");
 	if ($filename =~ m/\.zip$/i) {

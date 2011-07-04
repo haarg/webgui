@@ -18,7 +18,6 @@ use Test::More;
 use WebGUI::Test; # Must use this before any other WebGUI modules
 use WebGUI::Session;
 use Test::Deep;
-use Scope::Guard;
 
 #----------------------------------------------------------------------------
 # Init

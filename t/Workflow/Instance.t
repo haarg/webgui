@@ -16,7 +16,7 @@ use strict;
 use Test::More;
 use Test::Deep;
 use Test::Exception;
-use Scope::Guard;
+use Guard;
 
 use Test::MockObject;
 my $mockSpectre = Test::MockObject->new();
@@ -206,9 +206,9 @@ cmp_deeply($wf2Instance->get('parameters'), {}, 'get returns {} for parameters w
             type => 'WebGUI::Test::Workflow::Instance::TestObject',
         }
     );
-    my $wf3guard = Scope::Guard->new(sub {
+    scope_guard {
         $wf3->delete;
-    });
+    };
 
     my $wf3Instance = WebGUI::Workflow::Instance->create( $session, {
         workflowId => $wf3->getId,

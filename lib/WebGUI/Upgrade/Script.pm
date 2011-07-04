@@ -7,7 +7,7 @@ use feature ();
 use Sub::Exporter;
 use Sub::Name;
 use WebGUI::Upgrade ();
-use Scope::Guard;
+use Guard;
 use Scalar::Util qw(weaken);
 use Try::Tiny;
 
@@ -121,7 +121,7 @@ sub _build_exports {
         undef $session;
         undef $versionTag;
     };
-    my $cleanup_guard = Scope::Guard->new( $cleanup );
+    my $cleanup_guard = guard($cleanup);
 
     # we keep a weakened copy around.  this prevents us from keeping a
     # copy if the guard gets freed, but otherwise allows us to call it

@@ -22,6 +22,8 @@ use WebGUI::Definition ();
 use WebGUI::Definition::Meta::Asset;
 use Moose::Util;
 use Moose::Util::MetaRole;
+use Hook::AfterRuntime;
+use true;
 
 use namespace::autoclean;
 
@@ -66,9 +68,16 @@ generate warnings.
 sub import {
     my $class = shift;
     my $caller = caller;
+    strict->import;
+    warnings->import;
+    feature->import(':5.10');
+    true->import;
+
     $class->$import({ into_level => 1 });
     warnings->unimport('uninitialized');
-    feature->import(':5.10');
+    if ($caller->meta->isa('Moose::Meta::Class')) {
+        after_runtime { $caller->meta->make_immutable };
+    }
     namespace::autoclean->import( -cleanee => $caller );
     return 1;
 }
@@ -114,4 +123,3 @@ sub init_meta {
     return $for_class->meta;
 }
 
-1;

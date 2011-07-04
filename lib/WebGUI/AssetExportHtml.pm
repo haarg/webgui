@@ -22,7 +22,7 @@ use WebGUI::International;
 use WebGUI::Exception;
 use WebGUI::Session;
 use URI::URL ();
-use Scope::Guard qw(guard);
+use Guard;
 use WebGUI::ProgressTree;
 use WebGUI::FormBuilder;
 use WebGUI::Event;
@@ -267,10 +267,10 @@ sub exportAsHtml {
     # now, create a new session as the user doing the exports. this is so that
     # the exported assets are taken from that user's perspective.
     my $exportSession = WebGUI::Session->open($session->config);
-    my $esGuard = Scope::Guard->new(sub {
+    scope_guard {
         $exportSession->end;
         $exportSession->close;
-    });
+    };
 
     $exportSession->user( { userId => $userId } );
 
@@ -355,10 +355,10 @@ sub exportBranch {
         # Must be created once for each asset, since session is supposed to only handle
         # one main asset
         my $outputSession = $self->session->duplicate;
-        my $osGuard = Scope::Guard->new(sub {
+        scope_guard {
             $outputSession->close;
             $outputSession = undef;
-        });
+        };
 
         my $asset       = WebGUI::Asset->newById($outputSession, $assetId);
         my $fullPath    = $asset->exportGetUrlAsPath;
@@ -394,7 +394,7 @@ sub exportBranch {
             my $cs = $self->session->duplicate();
             open my $handle, '>', \my $output;
             $cs->output->setHandle($handle);
-            my $guard = guard {
+            scope_guard {
                 close $handle;
                 $cs->end;
                 $cs->close();
@@ -585,10 +585,10 @@ sub exportGetDescendants {
         if ( ref $user && $user->isa('WebGUI::User') ) {
             $session = WebGUI::Session->open($session->config);
             $session->user( { userId => $user->userId } );
-            $sGuard = Scope::Guard->new(sub {
+            $sGuard = guard {
                 $session->end;
                 $session->close;
-            });
+            };
             # clone self in the new session
             $asset = WebGUI::Asset->newById(
                 $session,

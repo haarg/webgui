@@ -36,6 +36,7 @@ use strict;
 use warnings;
 use feature ':5.10';
 use namespace::autoclean ();
+use true;
 
 sub import {
     my $caller = caller;
@@ -43,7 +44,7 @@ sub import {
     warnings->import;
     warnings->unimport('uninitialized');
     feature->import(':5.10');
+    true->import;
     namespace::autoclean->import( -cleanee => $caller );
 }
 
-1;

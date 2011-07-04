@@ -56,7 +56,7 @@ use IO::Select;
 use Net::SMTP::Server;
 use Net::SMTP::Server::Client;
 use MIME::Parser;
-use Scope::Guard;
+use Guard;
 use MIME::Parser;
 use POSIX ();
 
@@ -68,7 +68,7 @@ my $smtpdSelect;
 sub test_smtp {
     my $session = shift;
     my $testSub = shift;
-    my $guard = Scope::Guard->new(sub { _shutdown_server() } );
+    scope_guard { _shutdown_server() };
     _setup_server($session);
     sleep 1;
     my $parser = MIME::Parser->new;
